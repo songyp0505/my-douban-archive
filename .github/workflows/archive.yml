@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: douban-archive-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   archive:
     runs-on: ubuntu-latest
@@ -23,6 +27,23 @@ jobs:
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
 
+      - name: Run archive self tests
+        run: python scripts/selftest_archive.py
+
+      - name: Check required secrets
+        env:
+          DOUBAN_COOKIE: ${{ secrets.DOUBAN_COOKIE }}
+          DOUBAN_USER: ${{ secrets.DOUBAN_USER }}
+        run: |
+          if [ -z "$DOUBAN_COOKIE" ]; then
+            echo "DOUBAN_COOKIE secret is missing."
+            exit 1
+          fi
+          if [ -z "$DOUBAN_USER" ]; then
+            echo "DOUBAN_USER secret is missing."
+            exit 1
+          fi
+
       - name: Archive Douban records
         env:
           DOUBAN_COOKIE: ${{ secrets.DOUBAN_COOKIE }}
@@ -31,12 +52,13 @@ jobs:
 
       - name: Commit archive updates
         run: |
-          if git diff --quiet -- data/douban.json; then
+          git add data/douban.json
+          if git diff --cached --quiet -- data/douban.json; then
             echo "No archive changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/douban.json
           git commit -m "Update Douban archive"
-          git push
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"

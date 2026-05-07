@@ -12,7 +12,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional
+from typing import Dict, Iterable, List, Optional, Tuple
 from urllib.parse import urljoin
 
 import requests
@@ -26,8 +26,14 @@ CATEGORIES = {
     "movie": "https://movie.douban.com/people/{user}/{status}",
     "book": "https://book.douban.com/people/{user}/{status}",
 }
+CATEGORY_BASE_URLS = {
+    "movie": "https://movie.douban.com",
+    "book": "https://book.douban.com",
+}
 
 STATUSES = ("wish", "do", "collect")
+PERSONAL_FIELDS = ("source", "category", "status", "douban_id", "title", "url", "rating", "comment", "tags")
+SENSITIVE_COOKIE_NAMES = ("dbcl2", "ck", "push_noty_num", "push_doumail_num")
 
 
 class DoubanArchiveError(RuntimeError):
@@ -51,8 +57,27 @@ def build_session(cookie: str) -> requests.Session:
     return session
 
 
-def fetch_page(session: requests.Session, url: str, timeout: int) -> str:
-    response = session.get(url, timeout=timeout, allow_redirects=True)
+def fetch_page(session: requests.Session, url: str, timeout: int, retries: int) -> str:
+    response = None
+    for attempt in range(retries + 1):
+        try:
+            response = session.get(url, timeout=timeout, allow_redirects=True)
+            if response.status_code in {429, 500, 502, 503, 504} and attempt < retries:
+                sleep_seconds = 3 + attempt * 5
+                print(f"Temporary HTTP {response.status_code}; retrying in {sleep_seconds}s")
+                time.sleep(sleep_seconds)
+                continue
+            break
+        except requests.RequestException as exc:
+            if attempt >= retries:
+                raise DoubanArchiveError(f"Network request failed after retries: {url}") from exc
+            sleep_seconds = 3 + attempt * 5
+            print(f"Network request failed; retrying in {sleep_seconds}s")
+            time.sleep(sleep_seconds)
+
+    if response is None:
+        raise DoubanArchiveError(f"No response received: {url}")
+
     final_url = response.url.lower()
     text = response.text
 
@@ -113,8 +138,6 @@ def extract_comment(item) -> str:
     candidates = [
         ".comment",
         ".short-note",
-        ".intro",
-        ".pl",
     ]
     for selector in candidates:
         node = item.select_one(selector)
@@ -146,6 +169,9 @@ def find_items(soup: BeautifulSoup) -> Iterable:
         items = grid.select(".item")
         if items:
             return items
+    book_items = soup.select(".subject-item")
+    if book_items:
+        return book_items
     return soup.select(".item")
 
 
@@ -158,7 +184,7 @@ def parse_records(html: str, category: str, status: str, fetched_at: str) -> Lis
         if not link or not link.get("href"):
             continue
 
-        url = urljoin("https://www.douban.com", link["href"])
+        url = urljoin(CATEGORY_BASE_URLS[category], link["href"])
         douban_id = extract_subject_id(url)
         title = extract_title(item)
         if not douban_id or not title:
@@ -175,6 +201,7 @@ def parse_records(html: str, category: str, status: str, fetched_at: str) -> Lis
                 "rating": extract_rating(item),
                 "comment": extract_comment(item),
                 "tags": extract_tags(item),
+                "first_seen_at": fetched_at,
                 "updated_at": fetched_at,
                 "last_seen_at": fetched_at,
             }
@@ -194,25 +221,41 @@ def find_next_url(html: str, current_url: str) -> Optional[str]:
 def load_existing() -> Dict[str, object]:
     if not DATA_FILE.exists():
         return {"version": 1, "records": []}
-    with DATA_FILE.open("r", encoding="utf-8") as file_obj:
-        return json.load(file_obj)
+    try:
+        with DATA_FILE.open("r", encoding="utf-8") as file_obj:
+            existing = json.load(file_obj)
+    except json.JSONDecodeError as exc:
+        raise DoubanArchiveError(f"Existing archive is invalid JSON: {DATA_FILE}") from exc
+    if not isinstance(existing, dict):
+        raise DoubanArchiveError(f"Existing archive root must be an object: {DATA_FILE}")
+    return existing
 
 
-def merge_records(existing: Dict[str, object], fresh_records: List[Dict[str, object]], fetched_at: str) -> Dict[str, object]:
-    merged: Dict[str, Dict[str, object]] = {}
-    for record in existing.get("records", []):
-        if not isinstance(record, dict):
-            continue
-        category = record.get("category")
-        douban_id = record.get("douban_id")
-        if category and douban_id:
-            merged[f"{category}:{douban_id}"] = record
+def record_key(record: Dict[str, object]) -> Optional[str]:
+    category = record.get("category")
+    douban_id = record.get("douban_id")
+    if not category or not douban_id:
+        return None
+    return f"{category}:{douban_id}"
 
-    for record in fresh_records:
-        merged[f"{record['category']}:{record['douban_id']}"] = record
 
-    records = sorted(
-        merged.values(),
+def personal_snapshot(record: Dict[str, object]) -> Dict[str, object]:
+    return {field: record.get(field) for field in PERSONAL_FIELDS}
+
+
+def merge_record(existing: Optional[Dict[str, object]], fresh: Dict[str, object], fetched_at: str) -> Tuple[Dict[str, object], bool]:
+    if existing and personal_snapshot(existing) == personal_snapshot(fresh):
+        return existing, False
+
+    merged = dict(fresh)
+    if existing:
+        merged["first_seen_at"] = existing.get("first_seen_at") or existing.get("updated_at") or fetched_at
+    return merged, True
+
+
+def sort_records(records: Iterable[Dict[str, object]]) -> List[Dict[str, object]]:
+    return sorted(
+        records,
         key=lambda item: (
             str(item.get("category", "")),
             str(item.get("status", "")),
@@ -220,11 +263,77 @@ def merge_records(existing: Dict[str, object], fresh_records: List[Dict[str, obj
             str(item.get("douban_id", "")),
         ),
     )
+
+
+def merge_records(existing: Dict[str, object], fresh_records: List[Dict[str, object]], fetched_at: str) -> Tuple[Dict[str, object], bool]:
+    merged: Dict[str, Dict[str, object]] = {}
+    for record in existing.get("records", []):
+        if not isinstance(record, dict):
+            continue
+        key = record_key(record)
+        if key:
+            merged[key] = record
+
+    changed = False
+    for record in fresh_records:
+        key = record_key(record)
+        if not key:
+            continue
+        merged_record, record_changed = merge_record(merged.get(key), record, fetched_at)
+        merged[key] = merged_record
+        changed = changed or record_changed
+
+    records = sort_records(merged.values())
+    existing_records = sort_records([record for record in existing.get("records", []) if isinstance(record, dict)])
+    changed = changed or records != existing_records
+
     return {
         "version": 1,
-        "generated_at": fetched_at,
+        "generated_at": fetched_at if changed else existing.get("generated_at"),
         "records": records,
-    }
+    }, changed
+
+
+def validate_archive(result: Dict[str, object], fresh_count: int, cookie: str, allow_empty: bool) -> None:
+    records = result.get("records")
+    if not isinstance(records, list):
+        raise DoubanArchiveError("Archive validation failed: records must be a list.")
+    if fresh_count == 0 and not allow_empty:
+        raise DoubanArchiveError("Parsed zero fresh records; stop to avoid committing an empty/broken archive.")
+
+    cookie_parts = [part.strip() for part in cookie.split(";") if "=" in part]
+    cookie_values = [part.split("=", 1)[1] for part in cookie_parts]
+    serialized = json.dumps(result, ensure_ascii=False)
+
+    for value in cookie_values:
+        if len(value) >= 8 and value in serialized:
+            raise DoubanArchiveError("Archive validation failed: cookie-like secret leaked into output.")
+
+    for record in records:
+        if not isinstance(record, dict):
+            raise DoubanArchiveError("Archive validation failed: every record must be an object.")
+        missing = [field for field in ("source", "category", "status", "douban_id", "title", "url") if not record.get(field)]
+        if missing:
+            raise DoubanArchiveError(f"Archive validation failed: record is missing {', '.join(missing)}.")
+        if record.get("source") != "douban":
+            raise DoubanArchiveError("Archive validation failed: source must be douban.")
+        if record.get("category") not in CATEGORIES:
+            raise DoubanArchiveError("Archive validation failed: unknown category.")
+        if record.get("status") not in STATUSES:
+            raise DoubanArchiveError("Archive validation failed: unknown status.")
+        if not re.match(r"^\d+$", str(record.get("douban_id", ""))):
+            raise DoubanArchiveError("Archive validation failed: invalid douban_id.")
+        if not re.match(r"^https://(movie|book)\.douban\.com/subject/\d+/?", str(record.get("url", ""))):
+            raise DoubanArchiveError("Archive validation failed: URL is not a Douban subject URL.")
+
+
+def write_archive(result: Dict[str, object]) -> None:
+    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
+    temp_file = DATA_FILE.with_suffix(".json.tmp")
+    with temp_file.open("w", encoding="utf-8") as file_obj:
+        json.dump(result, file_obj, ensure_ascii=False, indent=2)
+        file_obj.write("\n")
+    temp_file.replace(DATA_FILE)
 
 
 def archive(args: argparse.Namespace) -> int:
@@ -234,10 +343,15 @@ def archive(args: argparse.Namespace) -> int:
         raise DoubanArchiveError("Missing DOUBAN_COOKIE environment variable.")
     if not user:
         raise DoubanArchiveError("Missing DOUBAN_USER environment variable.")
+    if args.min_sleep > args.max_sleep:
+        raise DoubanArchiveError("--min-sleep cannot be greater than --max-sleep.")
+    if not any(cookie_name + "=" in cookie for cookie_name in SENSITIVE_COOKIE_NAMES):
+        print("WARNING: Cookie does not look like a logged-in Douban browser cookie.", file=sys.stderr)
 
     fetched_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     session = build_session(cookie)
     fresh_records: List[Dict[str, object]] = []
+    page_totals: Dict[str, int] = {}
 
     for category, template in CATEGORIES.items():
         for status in STATUSES:
@@ -246,22 +360,28 @@ def archive(args: argparse.Namespace) -> int:
             while page_url:
                 page_count += 1
                 print(f"Fetching {category}/{status} page {page_count}")
-                html = fetch_page(session, page_url, args.timeout)
-                fresh_records.extend(parse_records(html, category, status, fetched_at))
+                html = fetch_page(session, page_url, args.timeout, args.retries)
+                page_records = parse_records(html, category, status, fetched_at)
+                print(f"Parsed {len(page_records)} records from {category}/{status} page {page_count}")
+                fresh_records.extend(page_records)
 
                 if args.max_pages and page_count >= args.max_pages:
                     break
                 page_url = find_next_url(html, page_url)
                 if page_url:
                     time.sleep(random.uniform(args.min_sleep, args.max_sleep))
+            page_totals[f"{category}/{status}"] = page_count
 
-    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
-    result = merge_records(load_existing(), fresh_records, fetched_at)
-    with DATA_FILE.open("w", encoding="utf-8") as file_obj:
-        json.dump(result, file_obj, ensure_ascii=False, indent=2)
-        file_obj.write("\n")
+    existing = load_existing()
+    result, changed = merge_records(existing, fresh_records, fetched_at)
+    validate_archive(result, len(fresh_records), cookie, args.allow_empty)
 
-    print(f"Archived {len(fresh_records)} fresh records; total records: {len(result['records'])}")
+    if changed or not DATA_FILE.exists():
+        write_archive(result)
+        print(f"Wrote archive: {len(fresh_records)} fresh records; total records: {len(result['records'])}")
+    else:
+        print(f"No archive content changes: {len(fresh_records)} fresh records; total records: {len(result['records'])}")
+    print("Fetched pages: " + ", ".join(f"{key}={value}" for key, value in sorted(page_totals.items())))
     return 0
 
 
@@ -269,8 +389,10 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Archive personal Douban movie and book records.")
     parser.add_argument("--max-pages", type=int, default=0, help="Maximum pages per category/status; 0 means all pages.")
     parser.add_argument("--timeout", type=int, default=20, help="HTTP timeout in seconds.")
+    parser.add_argument("--retries", type=int, default=2, help="Retries for temporary network/server failures.")
     parser.add_argument("--min-sleep", type=float, default=2.0, help="Minimum sleep between paginated requests.")
     parser.add_argument("--max-sleep", type=float, default=5.0, help="Maximum sleep between paginated requests.")
+    parser.add_argument("--allow-empty", action="store_true", help="Allow committing an archive when no fresh records were parsed.")
     return parser.parse_args()
 
 

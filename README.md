@@ -36,6 +36,7 @@ cd my-douban-archive
 export DOUBAN_COOKIE='your full cookie here'
 export DOUBAN_USER='your douban user id'
 python -m pip install -r requirements.txt
+python scripts/selftest_archive.py
 python scripts/archive_douban.py --max-pages 1
 ```
 
@@ -51,3 +52,24 @@ The workflow at `.github/workflows/archive.yml` supports:
 
 If Douban returns 403, a captcha, or a login page, the script stops and asks you
 to refresh `DOUBAN_COOKIE`. It does not try to bypass access checks.
+
+## Failure Cases
+
+- First run creates a new `data/douban.json`: the workflow stages the file before
+  checking for changes, so new files are committed correctly.
+- No real archive changes: the script preserves existing timestamps for unchanged
+  records, so the workflow does not create noisy daily commits.
+- Cookie missing or expired: the workflow fails before archiving, or the script
+  stops on login/captcha/403 responses. Refresh `DOUBAN_COOKIE` in repository
+  secrets.
+- Douban temporarily fails: the script retries temporary network/server errors,
+  then stops if the request still fails.
+- Parser finds zero records: the script fails by default so a broken page or
+  changed Douban layout does not overwrite your archive with empty data.
+- Two runs overlap: workflow concurrency queues runs for the same branch.
+- Remote branch changes during the run: the workflow rebases before pushing the
+  archive commit.
+- Secret leakage: the script validates the output before writing and fails if a
+  cookie value appears in the archive JSON.
+- Parser regressions: the workflow runs `scripts/selftest_archive.py` before
+  accessing Douban.

@@ -32,8 +32,9 @@ CATEGORY_BASE_URLS = {
 }
 
 STATUSES = ("wish", "do", "collect")
-PERSONAL_FIELDS = ("source", "category", "status", "douban_id", "title", "url", "rating", "comment", "tags")
+RECORD_FIELDS = ("source", "category", "status", "douban_id", "title", "url", "rating", "comment", "tags", "marked_at")
 SENSITIVE_COOKIE_NAMES = ("dbcl2", "ck", "push_noty_num", "push_doumail_num")
+REMOVED_RECORD_FIELDS = ("first_seen_at", "updated_at", "last_seen_at")
 
 
 class DoubanArchiveError(RuntimeError):
@@ -151,6 +152,12 @@ def clean_comment(text: str) -> str:
     return text
 
 
+def extract_marked_at(item) -> Optional[str]:
+    text = normalize_space(text_or_empty(item))
+    match = re.search(r"\b(\d{4}-\d{2}-\d{2})\s*(读过|看过|想读|想看|在读|在看)\b", text)
+    return match.group(1) if match else None
+
+
 def extract_comment(item) -> str:
     candidates = [
         ".comment",
@@ -218,9 +225,7 @@ def parse_records(html: str, category: str, status: str, fetched_at: str) -> Lis
                 "rating": extract_rating(item),
                 "comment": extract_comment(item),
                 "tags": extract_tags(item),
-                "first_seen_at": fetched_at,
-                "updated_at": fetched_at,
-                "last_seen_at": fetched_at,
+                "marked_at": extract_marked_at(item),
             }
         )
 
@@ -256,18 +261,22 @@ def record_key(record: Dict[str, object]) -> Optional[str]:
     return f"{category}:{douban_id}"
 
 
-def personal_snapshot(record: Dict[str, object]) -> Dict[str, object]:
-    return {field: record.get(field) for field in PERSONAL_FIELDS}
+def normalize_record(record: Dict[str, object]) -> Dict[str, object]:
+    normalized = {field: record.get(field) for field in RECORD_FIELDS}
+    normalized["comment"] = clean_comment(str(normalized.get("comment") or ""))
+    tags = normalized.get("tags")
+    normalized["tags"] = tags if isinstance(tags, list) else []
+    return normalized
 
 
 def merge_record(existing: Optional[Dict[str, object]], fresh: Dict[str, object], fetched_at: str) -> Tuple[Dict[str, object], bool]:
-    if existing and personal_snapshot(existing) == personal_snapshot(fresh):
-        return existing, False
-
-    merged = dict(fresh)
     if existing:
-        merged["first_seen_at"] = existing.get("first_seen_at") or existing.get("updated_at") or fetched_at
-    return merged, True
+        existing_normalized = normalize_record(existing)
+        fresh_normalized = normalize_record(fresh)
+        if existing_normalized == fresh_normalized:
+            return existing_normalized, existing != existing_normalized
+        return fresh_normalized, True
+    return normalize_record(fresh), True
 
 
 def sort_records(records: Iterable[Dict[str, object]]) -> List[Dict[str, object]]:
@@ -300,8 +309,10 @@ def merge_records(existing: Dict[str, object], fresh_records: List[Dict[str, obj
         merged[key] = merged_record
         changed = changed or record_changed
 
-    records = sort_records(merged.values())
-    existing_records = sort_records([record for record in existing.get("records", []) if isinstance(record, dict)])
+    records = sort_records(normalize_record(record) for record in merged.values())
+    existing_records = sort_records(
+        normalize_record(record) for record in existing.get("records", []) if isinstance(record, dict)
+    )
     changed = changed or records != existing_records
 
     return {
@@ -342,6 +353,12 @@ def validate_archive(result: Dict[str, object], fresh_count: int, cookie: str, a
             raise DoubanArchiveError("Archive validation failed: invalid douban_id.")
         if not re.match(r"^https://(movie|book)\.douban\.com/subject/\d+/?", str(record.get("url", ""))):
             raise DoubanArchiveError("Archive validation failed: URL is not a Douban subject URL.")
+        obsolete = [field for field in REMOVED_RECORD_FIELDS if field in record]
+        if obsolete:
+            raise DoubanArchiveError(f"Archive validation failed: obsolete timestamp fields remain: {', '.join(obsolete)}.")
+        marked_at = record.get("marked_at")
+        if marked_at is not None and not re.match(r"^\d{4}-\d{2}-\d{2}$", str(marked_at)):
+            raise DoubanArchiveError("Archive validation failed: marked_at must be YYYY-MM-DD or null.")
         comment = str(record.get("comment", ""))
         if re.search(r"(\s|^)(修改|删除)(\s|$)", comment):
             raise DoubanArchiveError("Archive validation failed: Douban UI controls leaked into comment.")

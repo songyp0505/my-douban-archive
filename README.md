@@ -15,7 +15,10 @@ TMDb, Trakt, Bark, or any local service from the parent project.
 - Your own rating, if present
 - Your own short comment, if present
 - Your own tags, if present
-- Archive timestamps
+- `marked_at`, the date you marked the item on Douban, if present
+
+The archive has one top-level `generated_at` timestamp for the file generation
+time. Individual records do not store repeated archive timestamps.
 
 It does not save cookies, cover images, full Douban descriptions, other users'
 comments, private messages, group content, or rating distributions.
@@ -47,7 +50,7 @@ The archive will be written to `data/douban.json`.
 The workflow at `.github/workflows/archive.yml` supports:
 
 - Manual runs through `workflow_dispatch`.
-- Daily scheduled runs at `18:00 UTC`, roughly early morning in China.
+- Scheduled runs every 3 hours.
 - Automatic commits only when `data/douban.json` changes.
 
 If Douban returns 403, a captcha, or a login page, the script stops and asks you
@@ -57,8 +60,8 @@ to refresh `DOUBAN_COOKIE`. It does not try to bypass access checks.
 
 - First run creates a new `data/douban.json`: the workflow stages the file before
   checking for changes, so new files are committed correctly.
-- No real archive changes: the script preserves existing timestamps for unchanged
-  records, so the workflow does not create noisy daily commits.
+- No real archive changes: the script keeps record content stable, so the
+  workflow does not create noisy scheduled commits.
 - Cookie missing or expired: the workflow fails before archiving, or the script
   stops on login/captcha/403 responses. Refresh `DOUBAN_COOKIE` in repository
   secrets.
@@ -75,3 +78,5 @@ to refresh `DOUBAN_COOKIE`. It does not try to bypass access checks.
   accessing Douban.
 - Douban UI text in comments: date/status/control text such as `读过 修改 删除`
   is stripped; if it still leaks into output, validation fails before writing.
+- Obsolete per-record archive timestamps: `first_seen_at`, `updated_at`, and
+  `last_seen_at` are removed during merge and rejected during validation.

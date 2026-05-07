@@ -73,3 +73,5 @@ to refresh `DOUBAN_COOKIE`. It does not try to bypass access checks.
   cookie value appears in the archive JSON.
 - Parser regressions: the workflow runs `scripts/selftest_archive.py` before
   accessing Douban.
+- Douban UI text in comments: date/status/control text such as `读过 修改 删除`
+  is stripped; if it still leaks into output, validation fails before writing.

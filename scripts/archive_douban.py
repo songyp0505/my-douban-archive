@@ -134,6 +134,23 @@ def extract_tags(item) -> List[str]:
     return [tag for tag in re.split(r"\s+", tag_text) if tag]
 
 
+def clean_comment(text: str) -> str:
+    text = normalize_space(text)
+    if not text:
+        return ""
+
+    text = re.sub(r"(\s*(修改|删除))+$", "", text).strip()
+    text = re.sub(r"^\d{4}-\d{2}-\d{2}\s*(读过|看过|想读|想看|在读|在看)\s*", "", text).strip()
+
+    # If the text came from the whole status block, it may contain only tags and
+    # Douban UI controls. Tags are stored separately, so do not keep this as a comment.
+    if re.search(r"(^|\s)标签[:：]", text):
+        return ""
+    if text in {"读过", "看过", "想读", "想看", "在读", "在看", "修改", "删除"}:
+        return ""
+    return text
+
+
 def extract_comment(item) -> str:
     candidates = [
         ".comment",
@@ -141,7 +158,7 @@ def extract_comment(item) -> str:
     ]
     for selector in candidates:
         node = item.select_one(selector)
-        text = normalize_space(text_or_empty(node))
+        text = clean_comment(text_or_empty(node))
         if text and not text.startswith("标签"):
             return text
     return ""
@@ -325,6 +342,11 @@ def validate_archive(result: Dict[str, object], fresh_count: int, cookie: str, a
             raise DoubanArchiveError("Archive validation failed: invalid douban_id.")
         if not re.match(r"^https://(movie|book)\.douban\.com/subject/\d+/?", str(record.get("url", ""))):
             raise DoubanArchiveError("Archive validation failed: URL is not a Douban subject URL.")
+        comment = str(record.get("comment", ""))
+        if re.search(r"(\s|^)(修改|删除)(\s|$)", comment):
+            raise DoubanArchiveError("Archive validation failed: Douban UI controls leaked into comment.")
+        if re.match(r"^\d{4}-\d{2}-\d{2}\s*(读过|看过|想读|想看|在读|在看)(\s|$)", comment):
+            raise DoubanArchiveError("Archive validation failed: Douban status text leaked into comment.")
 
 
 def write_archive(result: Dict[str, object]) -> None:

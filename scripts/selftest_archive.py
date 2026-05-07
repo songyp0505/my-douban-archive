@@ -64,6 +64,32 @@ def main() -> int:
     assert book_records[0]["url"] == "https://book.douban.com/subject/1234567/"
     assert book_records[0]["comment"] == "我的读书短评"
 
+    noisy_book_html = """
+    <html><body>
+      <li class="subject-item">
+        <h2><a href="/subject/7654321/"> 没写短评的书 </a></h2>
+        <span class="rating3-t" title="还行"></span>
+        <span class="comment">2022-11-09 读过 修改 删除</span>
+      </li>
+      <li class="subject-item">
+        <h2><a href="/subject/7654322/"> 有短评的书 </a></h2>
+        <span class="rating5-t" title="力荐"></span>
+        <span class="comment">2022-11-09 读过 真不错 修改 删除</span>
+      </li>
+      <li class="subject-item">
+        <h2><a href="/subject/7654323/"> 只有标签的书 </a></h2>
+        <span class="rating5-t" title="力荐"></span>
+        <span class="comment">2018-12-10 读过 标签: 小说 文学 修改 删除</span>
+        <span class="tags">标签: 小说 文学</span>
+      </li>
+    </body></html>
+    """
+    noisy_records = archive.parse_records(noisy_book_html, "book", "collect", fetched_at)
+    assert noisy_records[0]["comment"] == ""
+    assert noisy_records[1]["comment"] == "真不错"
+    assert noisy_records[2]["comment"] == ""
+    assert noisy_records[2]["tags"] == ["小说", "文学"]
+
     existing = {"version": 1, "generated_at": "old", "records": movie_records + book_records}
     unchanged, changed = archive.merge_records(existing, movie_records + book_records, "new")
     assert changed is False
@@ -87,6 +113,15 @@ def main() -> int:
             False,
         ),
         "cookie value leak should fail validation",
+    )
+    expect_error(
+        lambda: archive.validate_archive(
+            {"version": 1, "records": [{**book_records[0], "comment": "2022-11-09 读过 修改 删除"}]},
+            1,
+            "dbcl2=secret-value-123",
+            False,
+        ),
+        "Douban UI text should fail validation",
     )
 
     print("archive self tests passed")

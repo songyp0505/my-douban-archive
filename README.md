@@ -8,6 +8,7 @@ TMDb, Trakt, Bark, or any local service from the parent project.
 ## What It Saves
 
 - Category: `movie` or `book`
+- Media type for movie-channel records: `movie` or `tv`
 - Status: `wish`, `do`, or `collect`
 - Douban subject ID
 - Title
@@ -20,8 +21,13 @@ TMDb, Trakt, Bark, or any local service from the parent project.
 The archive has one top-level `generated_at` timestamp for the file generation
 time. Individual records do not store repeated archive timestamps.
 
+For Douban's movie channel, the archive fetches movie and TV list filters
+separately with `type=movie` and `type=tv`, then saves that list type as
+`media_type`. It does not visit subject detail pages to infer metadata.
+
 It does not save cookies, cover images, full Douban descriptions, other users'
-comments, private messages, group content, or rating distributions.
+comments, private messages, group content, rating distributions, or subject
+detail-page content.
 
 ## GitHub Secrets
 
@@ -76,6 +82,9 @@ to refresh `DOUBAN_COOKIE`. It does not try to bypass access checks.
   cookie value appears in the archive JSON.
 - Parser regressions: the workflow runs `scripts/selftest_archive.py` before
   accessing Douban.
+- Movie/TV classification: movie-channel lists are fetched separately with
+  Douban's `type=movie` and `type=tv` filters; each fresh movie-channel record
+  must include `media_type`.
 - Douban UI text in comments: date/status/control text such as `读过 修改 删除`
   is stripped; if it still leaks into output, validation fails before writing.
 - Obsolete per-record archive timestamps: `first_seen_at`, `updated_at`, and

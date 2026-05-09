@@ -43,15 +43,32 @@ def main() -> int:
       </div>
     </body></html>
     """
-    movie_records = archive.parse_records(movie_html, "movie", "collect", fetched_at)
+    movie_records = archive.parse_records(movie_html, "movie", "collect", fetched_at, media_type="movie")
     assert len(movie_records) == 1
     assert movie_records[0]["url"] == "https://movie.douban.com/subject/1291546/"
+    assert movie_records[0]["media_type"] == "movie"
     assert movie_records[0]["rating"] == 5
     assert movie_records[0]["comment"] == "我的短评"
     assert movie_records[0]["marked_at"] == "2024-02-18"
     assert "first_seen_at" not in movie_records[0]
     assert "updated_at" not in movie_records[0]
     assert "last_seen_at" not in movie_records[0]
+
+    tv_html = """
+    <html><body>
+      <div class="grid-view">
+        <div class="item">
+          <li class="title"><a href="/subject/30465634/"><em>一级方程式：疾速争胜 第一季</em></a></li>
+          <span class="comment">2026-05-08 想看 修改 删除</span>
+        </div>
+      </div>
+    </body></html>
+    """
+    tv_records = archive.parse_records(tv_html, "movie", "wish", fetched_at, media_type="tv")
+    assert len(tv_records) == 1
+    assert tv_records[0]["url"] == "https://movie.douban.com/subject/30465634/"
+    assert tv_records[0]["media_type"] == "tv"
+    assert tv_records[0]["marked_at"] == "2026-05-08"
 
     book_html = """
     <html><body>
@@ -66,6 +83,7 @@ def main() -> int:
     book_records = archive.parse_records(book_html, "book", "collect", fetched_at)
     assert len(book_records) == 1
     assert book_records[0]["url"] == "https://book.douban.com/subject/1234567/"
+    assert "media_type" not in book_records[0]
     assert book_records[0]["comment"] == "我的读书短评"
     assert book_records[0]["marked_at"] is None
 
@@ -109,6 +127,16 @@ def main() -> int:
     assert changed is True
     assert changed_archive["generated_at"] == "new"
 
+    legacy_movie = dict(movie_records[0])
+    legacy_movie.pop("media_type")
+    media_type_archive, changed = archive.merge_records(
+        {"version": 1, "generated_at": "old", "records": [legacy_movie]},
+        movie_records,
+        "new",
+    )
+    assert changed is True
+    assert media_type_archive["records"][0]["media_type"] == "movie"
+
     old_timestamp_record = {**movie_records[0], "first_seen_at": fetched_at, "updated_at": fetched_at, "last_seen_at": fetched_at}
     cleaned_archive, changed = archive.merge_records(
         {"version": 1, "generated_at": "old", "records": [old_timestamp_record]},
@@ -151,6 +179,43 @@ def main() -> int:
         ),
         "obsolete per-record timestamps should fail validation",
     )
+    expect_error(
+        lambda: archive.validate_archive(
+            {"version": 1, "records": [{**movie_records[0], "media_type": "episode"}]},
+            1,
+            "dbcl2=secret-value-123",
+            False,
+        ),
+        "invalid media_type should fail validation",
+    )
+    expect_error(
+        lambda: archive.validate_archive(
+            {"version": 1, "records": movie_records},
+            1,
+            "dbcl2=secret-value-123",
+            False,
+            fresh_records=[{k: v for k, v in movie_records[0].items() if k != "media_type"}],
+        ),
+        "fresh movie records without media_type should fail validation",
+    )
+    expect_error(
+        lambda: archive.validate_archive(
+            {"version": 1, "records": [{**book_records[0], "media_type": "tv"}]},
+            1,
+            "dbcl2=secret-value-123",
+            False,
+        ),
+        "book records with media_type should fail validation",
+    )
+
+    movie_url = archive.build_list_url("movie", "188332994", "wish", "movie")
+    tv_url = archive.build_list_url("movie", "188332994", "wish", "tv")
+    book_url = archive.build_list_url("book", "188332994", "wish")
+    assert "type=movie" in movie_url
+    assert "type=tv" in tv_url
+    assert "sort=time" in movie_url
+    assert "start=0" in movie_url
+    assert book_url == "https://book.douban.com/people/188332994/wish"
 
     print("archive self tests passed")
     return 0

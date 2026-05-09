@@ -13,7 +13,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
-from urllib.parse import urljoin
+from urllib.parse import urlencode, urljoin
 
 import requests
 from bs4 import BeautifulSoup
@@ -32,6 +32,7 @@ CATEGORY_BASE_URLS = {
 }
 
 STATUSES = ("wish", "do", "collect")
+MEDIA_TYPES = ("movie", "tv")
 RECORD_FIELDS = ("source", "category", "status", "douban_id", "title", "url", "rating", "comment", "tags", "marked_at")
 SENSITIVE_COOKIE_NAMES = ("dbcl2", "ck", "push_noty_num", "push_doumail_num")
 REMOVED_RECORD_FIELDS = ("first_seen_at", "updated_at", "last_seen_at")
@@ -199,7 +200,29 @@ def find_items(soup: BeautifulSoup) -> Iterable:
     return soup.select(".item")
 
 
-def parse_records(html: str, category: str, status: str, fetched_at: str) -> List[Dict[str, object]]:
+def build_list_url(category: str, user: str, status: str, media_type: Optional[str] = None) -> str:
+    base_url = CATEGORIES[category].format(user=user, status=status)
+    if category != "movie":
+        return base_url
+    if media_type not in MEDIA_TYPES:
+        raise DoubanArchiveError("Movie archive list requires media_type=movie or media_type=tv.")
+    query = urlencode(
+        {
+            "sort": "time",
+            "tags_sort": "count",
+            "filter": "all",
+            "start": 0,
+            "mode": "grid",
+            "type": media_type,
+        }
+    )
+    return f"{base_url}?{query}"
+
+
+def parse_records(html: str, category: str, status: str, fetched_at: str, media_type: Optional[str] = None) -> List[Dict[str, object]]:
+    if category == "movie" and media_type not in MEDIA_TYPES:
+        raise DoubanArchiveError("Movie archive records require media_type=movie or media_type=tv.")
+
     soup = BeautifulSoup(html, "lxml")
     records: List[Dict[str, object]] = []
 
@@ -214,20 +237,22 @@ def parse_records(html: str, category: str, status: str, fetched_at: str) -> Lis
         if not douban_id or not title:
             continue
 
-        records.append(
-            {
-                "source": "douban",
-                "category": category,
-                "status": status,
-                "douban_id": douban_id,
-                "title": title,
-                "url": url,
-                "rating": extract_rating(item),
-                "comment": extract_comment(item),
-                "tags": extract_tags(item),
-                "marked_at": extract_marked_at(item),
-            }
-        )
+        record = {
+            "source": "douban",
+            "category": category,
+            "status": status,
+            "douban_id": douban_id,
+            "title": title,
+            "url": url,
+            "rating": extract_rating(item),
+            "comment": extract_comment(item),
+            "tags": extract_tags(item),
+            "marked_at": extract_marked_at(item),
+        }
+        if category == "movie":
+            record["media_type"] = media_type
+
+        records.append(record)
 
     return records
 
@@ -263,6 +288,8 @@ def record_key(record: Dict[str, object]) -> Optional[str]:
 
 def normalize_record(record: Dict[str, object]) -> Dict[str, object]:
     normalized = {field: record.get(field) for field in RECORD_FIELDS}
+    if normalized.get("category") == "movie" and "media_type" in record:
+        normalized["media_type"] = str(record.get("media_type") or "")
     normalized["comment"] = clean_comment(str(normalized.get("comment") or ""))
     tags = normalized.get("tags")
     normalized["tags"] = tags if isinstance(tags, list) else []
@@ -285,6 +312,7 @@ def sort_records(records: Iterable[Dict[str, object]]) -> List[Dict[str, object]
         key=lambda item: (
             str(item.get("category", "")),
             str(item.get("status", "")),
+            str(item.get("media_type", "")),
             str(item.get("title", "")),
             str(item.get("douban_id", "")),
         ),
@@ -322,7 +350,13 @@ def merge_records(existing: Dict[str, object], fresh_records: List[Dict[str, obj
     }, changed
 
 
-def validate_archive(result: Dict[str, object], fresh_count: int, cookie: str, allow_empty: bool) -> None:
+def validate_archive(
+    result: Dict[str, object],
+    fresh_count: int,
+    cookie: str,
+    allow_empty: bool,
+    fresh_records: Optional[List[Dict[str, object]]] = None,
+) -> None:
     records = result.get("records")
     if not isinstance(records, list):
         raise DoubanArchiveError("Archive validation failed: records must be a list.")
@@ -347,6 +381,12 @@ def validate_archive(result: Dict[str, object], fresh_count: int, cookie: str, a
             raise DoubanArchiveError("Archive validation failed: source must be douban.")
         if record.get("category") not in CATEGORIES:
             raise DoubanArchiveError("Archive validation failed: unknown category.")
+        if record.get("category") == "movie":
+            media_type = record.get("media_type")
+            if media_type is not None and media_type not in MEDIA_TYPES:
+                raise DoubanArchiveError("Archive validation failed: invalid media_type.")
+        elif "media_type" in record:
+            raise DoubanArchiveError("Archive validation failed: only movie-category records may have media_type.")
         if record.get("status") not in STATUSES:
             raise DoubanArchiveError("Archive validation failed: unknown status.")
         if not re.match(r"^\d+$", str(record.get("douban_id", ""))):
@@ -364,6 +404,12 @@ def validate_archive(result: Dict[str, object], fresh_count: int, cookie: str, a
             raise DoubanArchiveError("Archive validation failed: Douban UI controls leaked into comment.")
         if re.match(r"^\d{4}-\d{2}-\d{2}\s*(读过|看过|想读|想看|在读|在看)(\s|$)", comment):
             raise DoubanArchiveError("Archive validation failed: Douban status text leaked into comment.")
+
+    for record in fresh_records or []:
+        if record.get("category") == "movie" and record.get("media_type") not in MEDIA_TYPES:
+            raise DoubanArchiveError("Archive validation failed: fresh movie records must include media_type.")
+        if record.get("category") == "book" and "media_type" in record:
+            raise DoubanArchiveError("Archive validation failed: fresh book records must not include media_type.")
 
 
 def write_archive(result: Dict[str, object]) -> None:
@@ -392,28 +438,31 @@ def archive(args: argparse.Namespace) -> int:
     fresh_records: List[Dict[str, object]] = []
     page_totals: Dict[str, int] = {}
 
-    for category, template in CATEGORIES.items():
-        for status in STATUSES:
-            page_url = template.format(user=user, status=status)
-            page_count = 0
-            while page_url:
-                page_count += 1
-                print(f"Fetching {category}/{status} page {page_count}")
-                html = fetch_page(session, page_url, args.timeout, args.retries)
-                page_records = parse_records(html, category, status, fetched_at)
-                print(f"Parsed {len(page_records)} records from {category}/{status} page {page_count}")
-                fresh_records.extend(page_records)
+    for category in CATEGORIES:
+        media_types: Tuple[Optional[str], ...] = MEDIA_TYPES if category == "movie" else (None,)
+        for media_type in media_types:
+            for status in STATUSES:
+                page_url = build_list_url(category, user, status, media_type)
+                page_key = f"{category}/{media_type}/{status}" if media_type else f"{category}/{status}"
+                page_count = 0
+                while page_url:
+                    page_count += 1
+                    print(f"Fetching {page_key} page {page_count}")
+                    html = fetch_page(session, page_url, args.timeout, args.retries)
+                    page_records = parse_records(html, category, status, fetched_at, media_type=media_type)
+                    print(f"Parsed {len(page_records)} records from {page_key} page {page_count}")
+                    fresh_records.extend(page_records)
 
-                if args.max_pages and page_count >= args.max_pages:
-                    break
-                page_url = find_next_url(html, page_url)
-                if page_url:
-                    time.sleep(random.uniform(args.min_sleep, args.max_sleep))
-            page_totals[f"{category}/{status}"] = page_count
+                    if args.max_pages and page_count >= args.max_pages:
+                        break
+                    page_url = find_next_url(html, page_url)
+                    if page_url:
+                        time.sleep(random.uniform(args.min_sleep, args.max_sleep))
+                page_totals[page_key] = page_count
 
     existing = load_existing()
     result, changed = merge_records(existing, fresh_records, fetched_at)
-    validate_archive(result, len(fresh_records), cookie, args.allow_empty)
+    validate_archive(result, len(fresh_records), cookie, args.allow_empty, fresh_records=fresh_records)
 
     if changed or not DATA_FILE.exists():
         write_archive(result)

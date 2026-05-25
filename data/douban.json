@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-05-17T03:52:00+00:00",
+  "generated_at": "2026-05-25T04:13:03+00:00",
   "records": [
     {
       "source": "douban",
@@ -6988,6 +6988,19 @@
       "douban_id": "35694766",
       "title": "火山挚恋 / Fire of Love",
       "url": "https://movie.douban.com/subject/35694766/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "36778356",
+      "title": "火车梦 / Train Dreams",
+      "url": "https://movie.douban.com/subject/36778356/",
       "rating": null,
       "comment": "",
       "tags": [],

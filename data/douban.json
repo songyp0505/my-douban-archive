@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-05-28T10:11:09+00:00",
+  "generated_at": "2026-06-01T21:37:24+00:00",
   "records": [
     {
       "source": "douban",
@@ -5530,7 +5530,7 @@
       "category": "movie",
       "status": "collect",
       "douban_id": "35248792",
-      "title": "少年法庭 / 소년심판",
+      "title": "少年法庭 第一季 / 소년심판",
       "url": "https://movie.douban.com/subject/35248792/",
       "rating": 5,
       "comment": "",

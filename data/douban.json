@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-06-02T10:43:29+00:00",
+  "generated_at": "2026-06-02T16:41:14+00:00",
   "records": [
     {
       "source": "douban",
@@ -7337,7 +7337,7 @@
       "category": "movie",
       "status": "wish",
       "douban_id": "36715969",
-      "title": "好搭档 第一季 / 굿파트너",
+      "title": "好搭档 / 굿파트너",
       "url": "https://movie.douban.com/subject/36715969/",
       "rating": null,
       "comment": "",

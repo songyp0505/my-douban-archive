@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-06-01T21:37:24+00:00",
+  "generated_at": "2026-06-02T10:43:29+00:00",
   "records": [
     {
       "source": "douban",
@@ -5985,7 +5985,7 @@
       "category": "movie",
       "status": "collect",
       "douban_id": "36416346",
-      "title": "流氓读书会 / 스터디그룹",
+      "title": "流氓读书会 第一季 / 스터디그룹",
       "url": "https://movie.douban.com/subject/36416346/",
       "rating": 4,
       "comment": "",

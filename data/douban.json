@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-06-06T13:52:18+00:00",
+  "generated_at": "2026-06-16T20:56:40+00:00",
   "records": [
     {
       "source": "douban",
@@ -666,6 +666,18 @@
       "source": "douban",
       "category": "book",
       "status": "wish",
+      "douban_id": "10517238",
+      "title": "平凡的世界",
+      "url": "https://book.douban.com/subject/10517238/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-06-16"
+    },
+    {
+      "source": "douban",
+      "category": "book",
+      "status": "wish",
       "douban_id": "30259726",
       "title": "我的阿勒泰",
       "url": "https://book.douban.com/subject/30259726/",
@@ -697,6 +709,18 @@
       "comment": "",
       "tags": [],
       "marked_at": "2025-10-04"
+    },
+    {
+      "source": "douban",
+      "category": "book",
+      "status": "wish",
+      "douban_id": "36457094",
+      "title": "明亮的夜晚",
+      "url": "https://book.douban.com/subject/36457094/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-06-16"
     },
     {
       "source": "douban",

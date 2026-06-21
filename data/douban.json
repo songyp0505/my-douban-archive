@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-06-16T20:56:40+00:00",
+  "generated_at": "2026-06-21T04:45:41+00:00",
   "records": [
     {
       "source": "douban",
@@ -193,6 +193,18 @@
       "comment": "“我终将落俗，但浪漫至死不渝”",
       "tags": [],
       "marked_at": "2022-07-10"
+    },
+    {
+      "source": "douban",
+      "category": "book",
+      "status": "collect",
+      "douban_id": "36457094",
+      "title": "明亮的夜晚",
+      "url": "https://book.douban.com/subject/36457094/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-06-21"
     },
     {
       "source": "douban",
@@ -709,18 +721,6 @@
       "comment": "",
       "tags": [],
       "marked_at": "2025-10-04"
-    },
-    {
-      "source": "douban",
-      "category": "book",
-      "status": "wish",
-      "douban_id": "36457094",
-      "title": "明亮的夜晚",
-      "url": "https://book.douban.com/subject/36457094/",
-      "rating": null,
-      "comment": "",
-      "tags": [],
-      "marked_at": "2026-06-16"
     },
     {
       "source": "douban",

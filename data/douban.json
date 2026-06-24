@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-06-21T04:45:41+00:00",
+  "generated_at": "2026-06-24T03:56:53+00:00",
   "records": [
     {
       "source": "douban",
@@ -6622,6 +6622,19 @@
       "douban_id": "35441582",
       "title": "6/45 / 육사오",
       "url": "https://movie.douban.com/subject/35441582/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "30327842",
+      "title": "82年生的金智英 / 82년생 김지영",
+      "url": "https://movie.douban.com/subject/30327842/",
       "rating": null,
       "comment": "",
       "tags": [],

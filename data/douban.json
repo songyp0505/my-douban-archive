@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-06-24T03:56:53+00:00",
+  "generated_at": "2026-06-27T01:33:40+00:00",
   "records": [
     {
       "source": "douban",
@@ -227,7 +227,12 @@
       "url": "https://book.douban.com/subject/1106736/",
       "rating": 5,
       "comment": "",
-      "tags": [],
+      "tags": [
+        "曾国藩",
+        "清朝",
+        "这些人，这样存在过",
+        "晚清名臣"
+      ],
       "marked_at": "2018-12-10"
     },
     {
@@ -323,7 +328,13 @@
       "url": "https://book.douban.com/subject/1022060/",
       "rating": 5,
       "comment": "",
-      "tags": [],
+      "tags": [
+        "姜戎",
+        "小说",
+        "图腾",
+        "狼性",
+        "人性"
+      ],
       "marked_at": "2018-12-10"
     },
     {
@@ -383,7 +394,10 @@
       "url": "https://book.douban.com/subject/25862578/",
       "rating": 5,
       "comment": "",
-      "tags": [],
+      "tags": [
+        "温暖",
+        "东野圭吾"
+      ],
       "marked_at": "2018-12-10"
     },
     {

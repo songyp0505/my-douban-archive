@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-06-27T01:33:40+00:00",
+  "generated_at": "2026-07-04T13:41:27+00:00",
   "records": [
     {
       "source": "douban",
@@ -1501,6 +1501,19 @@
       "douban_id": "36065756",
       "title": "劫机 / 하이재킹",
       "url": "https://movie.douban.com/subject/36065756/",
+      "rating": 3,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "3217169",
+      "title": "勇士 / Warrior",
+      "url": "https://movie.douban.com/subject/3217169/",
       "rating": 3,
       "comment": "",
       "tags": [],
@@ -7234,6 +7247,19 @@
       "douban_id": "1291875",
       "title": "阳光灿烂的日子",
       "url": "https://movie.douban.com/subject/1291875/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "1920796",
+      "title": "附注：我爱你 / P.S. I Love You",
+      "url": "https://movie.douban.com/subject/1920796/",
       "rating": null,
       "comment": "",
       "tags": [],

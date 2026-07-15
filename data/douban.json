@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-15T05:36:08+00:00",
+  "generated_at": "2026-07-15T08:20:25+00:00",
   "records": [
     {
       "source": "douban",
@@ -5346,6 +5346,19 @@
       "source": "douban",
       "category": "movie",
       "status": "collect",
+      "douban_id": "35136799",
+      "title": "众神之地",
+      "url": "https://movie.douban.com/subject/35136799/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "tv"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
       "douban_id": "35517044",
       "title": "低智商犯罪",
       "url": "https://movie.douban.com/subject/35517044/",
@@ -7338,19 +7351,6 @@
       "douban_id": "36299879",
       "title": "中国奇谭2",
       "url": "https://movie.douban.com/subject/36299879/",
-      "rating": null,
-      "comment": "",
-      "tags": [],
-      "marked_at": null,
-      "media_type": "tv"
-    },
-    {
-      "source": "douban",
-      "category": "movie",
-      "status": "wish",
-      "douban_id": "35136799",
-      "title": "众神之地",
-      "url": "https://movie.douban.com/subject/35136799/",
       "rating": null,
       "comment": "",
       "tags": [],

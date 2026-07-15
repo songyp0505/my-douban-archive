@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-15T08:20:25+00:00",
+  "generated_at": "2026-07-15T13:50:18+00:00",
   "records": [
     {
       "source": "douban",
@@ -4787,6 +4787,19 @@
       "source": "douban",
       "category": "movie",
       "status": "collect",
+      "douban_id": "1920796",
+      "title": "附注：我爱你 / P.S. I Love You",
+      "url": "https://movie.douban.com/subject/1920796/",
+      "rating": 4,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
       "douban_id": "3071441",
       "title": "雪国列车 / 설국열차",
       "url": "https://movie.douban.com/subject/3071441/",
@@ -7273,19 +7286,6 @@
       "douban_id": "1291875",
       "title": "阳光灿烂的日子",
       "url": "https://movie.douban.com/subject/1291875/",
-      "rating": null,
-      "comment": "",
-      "tags": [],
-      "marked_at": null,
-      "media_type": "movie"
-    },
-    {
-      "source": "douban",
-      "category": "movie",
-      "status": "wish",
-      "douban_id": "1920796",
-      "title": "附注：我爱你 / P.S. I Love You",
-      "url": "https://movie.douban.com/subject/1920796/",
       "rating": null,
       "comment": "",
       "tags": [],

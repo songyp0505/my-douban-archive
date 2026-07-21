@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-20T19:47:04+00:00",
+  "generated_at": "2026-07-21T06:03:03+00:00",
   "records": [
     {
       "source": "douban",
@@ -1528,6 +1528,19 @@
       "title": "包宝宝 / Bao",
       "url": "https://movie.douban.com/subject/30182729/",
       "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "2997076",
+      "title": "华尔街之狼 / The Wolf of Wall Street",
+      "url": "https://movie.douban.com/subject/2997076/",
+      "rating": 4,
       "comment": "",
       "tags": [],
       "marked_at": null,

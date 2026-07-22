@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-22T05:53:38+00:00",
+  "generated_at": "2026-07-22T16:21:00+00:00",
   "records": [
     {
       "source": "douban",
@@ -7429,6 +7429,19 @@
       "douban_id": "32579283",
       "title": "后翼弃兵 / The Queen's Gambit",
       "url": "https://movie.douban.com/subject/32579283/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "tv"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "26895171",
+      "title": "四重奏 / カルテット",
+      "url": "https://movie.douban.com/subject/26895171/",
       "rating": null,
       "comment": "",
       "tags": [],

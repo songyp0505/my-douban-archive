@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-21T06:03:03+00:00",
+  "generated_at": "2026-07-22T05:53:38+00:00",
   "records": [
     {
       "source": "douban",
@@ -7728,6 +7728,19 @@
       "douban_id": "35358556",
       "title": "短剧开始啦 / コントが始まる",
       "url": "https://movie.douban.com/subject/35358556/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "tv"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "3986493",
+      "title": "神探夏洛克 第一季 / Sherlock Season 1",
+      "url": "https://movie.douban.com/subject/3986493/",
       "rating": null,
       "comment": "",
       "tags": [],

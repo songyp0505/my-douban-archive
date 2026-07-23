@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-22T16:21:00+00:00",
+  "generated_at": "2026-07-23T08:35:42+00:00",
   "records": [
     {
       "source": "douban",
@@ -7104,6 +7104,19 @@
       "douban_id": "1293544",
       "title": "沉默的羔羊 / The Silence of the Lambs",
       "url": "https://movie.douban.com/subject/1293544/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "36787273",
+      "title": "沙丘3 / Dune: Part Three",
+      "url": "https://movie.douban.com/subject/36787273/",
       "rating": null,
       "comment": "",
       "tags": [],

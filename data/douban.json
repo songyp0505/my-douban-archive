@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-23T16:38:42+00:00",
+  "generated_at": "2026-07-24T02:56:14+00:00",
   "records": [
     {
       "source": "douban",
@@ -7792,6 +7792,19 @@
       "douban_id": "35118256",
       "title": "赛博朋克：边缘行者 第一季 / Cyberpunk: Edgerunners Season 1",
       "url": "https://movie.douban.com/subject/35118256/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "tv"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "36680667",
+      "title": "超能路人甲 / 원더풀스",
+      "url": "https://movie.douban.com/subject/36680667/",
       "rating": null,
       "comment": "",
       "tags": [],

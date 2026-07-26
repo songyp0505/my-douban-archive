@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-24T02:56:14+00:00",
+  "generated_at": "2026-07-26T13:37:16+00:00",
   "records": [
     {
       "source": "douban",
@@ -871,7 +871,7 @@
       "category": "book",
       "status": "wish",
       "douban_id": "1134249",
-      "title": "若干重大决策与事件的回顾（上下卷）",
+      "title": "若干重大决策与事件的回顾",
       "url": "https://book.douban.com/subject/1134249/",
       "rating": null,
       "comment": "",

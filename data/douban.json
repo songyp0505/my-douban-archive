@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-26T13:37:16+00:00",
+  "generated_at": "2026-07-31T14:16:52+00:00",
   "records": [
     {
       "source": "douban",
@@ -4010,6 +4010,19 @@
       "title": "蜘蛛侠3 / Spider-Man 3",
       "url": "https://movie.douban.com/subject/1418189/",
       "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "36246195",
+      "title": "蜘蛛侠：崭新之日 / Spider-Man: Brand New Day",
+      "url": "https://movie.douban.com/subject/36246195/",
+      "rating": 3,
       "comment": "",
       "tags": [],
       "marked_at": null,

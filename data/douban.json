@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-31T14:16:52+00:00",
+  "generated_at": "2026-08-02T16:02:27+00:00",
   "records": [
     {
       "source": "douban",
@@ -7038,6 +7038,19 @@
       "douban_id": "1309015",
       "title": "摩托日记 / Diarios de motocicleta",
       "url": "https://movie.douban.com/subject/1309015/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "10577869",
+      "title": "时空恋旅人 / About Time",
+      "url": "https://movie.douban.com/subject/10577869/",
       "rating": null,
       "comment": "",
       "tags": [],

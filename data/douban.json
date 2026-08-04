@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-02T16:02:27+00:00",
+  "generated_at": "2026-08-04T11:27:18+00:00",
   "records": [
     {
       "source": "douban",
@@ -2541,6 +2541,19 @@
       "title": "我的姐姐",
       "url": "https://movie.douban.com/subject/35158160/",
       "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "1419936",
+      "title": "战争之王 / Lord of War",
+      "url": "https://movie.douban.com/subject/1419936/",
+      "rating": 4,
       "comment": "",
       "tags": [],
       "marked_at": null,

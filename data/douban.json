@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-04T11:27:18+00:00",
+  "generated_at": "2026-08-12T04:49:35+00:00",
   "records": [
     {
       "source": "douban",
@@ -2839,6 +2839,19 @@
       "douban_id": "35521951",
       "title": "杀死福顺 / 길복순",
       "url": "https://movie.douban.com/subject/35521951/",
+      "rating": 3,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "27195119",
+      "title": "李宗伟：败者为王 / Lee Chong Wei",
+      "url": "https://movie.douban.com/subject/27195119/",
       "rating": 3,
       "comment": "",
       "tags": [],

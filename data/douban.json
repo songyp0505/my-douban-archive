@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-12T04:49:35+00:00",
+  "generated_at": "2026-08-17T09:45:34+00:00",
   "records": [
     {
       "source": "douban",
@@ -2100,6 +2100,19 @@
       "url": "https://movie.douban.com/subject/30304994/",
       "rating": 4,
       "comment": "不错 但总感觉没有第一部惊艳。 But I love you in every universe.",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "36808876",
+      "title": "奥德赛 / The Odyssey",
+      "url": "https://movie.douban.com/subject/36808876/",
+      "rating": 5,
+      "comment": "",
       "tags": [],
       "marked_at": null,
       "media_type": "movie"

@@ -1,0 +1,124 @@
+name: Enrich Douban TMDb
+
+on:
+  workflow_run:
+    workflows: ["Archive Douban"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      retry_unresolved:
+        description: Retry subjects that previously had no confident TMDb match
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: douban-tmdb-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  enrich:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Check whether Douban data changed
+        id: douban-change
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          ARCHIVE_START_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "Manual TMDb enrichment requested."
+            exit 0
+          fi
+          if [ -z "$ARCHIVE_START_SHA" ]; then
+            echo "Archive workflow did not provide a start SHA."
+            exit 1
+          fi
+          if ! git cat-file -e "$ARCHIVE_START_SHA^{commit}"; then
+            git fetch --no-tags origin "$ARCHIVE_START_SHA"
+          fi
+          if git diff --quiet "$ARCHIVE_START_SHA"..HEAD -- data/douban.json; then
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "data/douban.json did not change; skipping TMDb enrichment."
+          else
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "data/douban.json changed; starting TMDb enrichment."
+          fi
+
+      - name: Set up Python
+        if: steps.douban-change.outputs.should_run == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        if: steps.douban-change.outputs.should_run == 'true'
+        run: python -m pip install -r requirements.txt
+
+      - name: Run TMDb enrichment self tests
+        if: steps.douban-change.outputs.should_run == 'true'
+        run: python scripts/selftest_tmdb.py
+
+      - name: Check required secrets
+        if: steps.douban-change.outputs.should_run == 'true'
+        env:
+          DOUBAN_COOKIE: ${{ secrets.DOUBAN_COOKIE }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: |
+          if [ -z "$DOUBAN_COOKIE" ]; then
+            echo "DOUBAN_COOKIE secret is missing."
+            exit 1
+          fi
+          if [ -z "$TMDB_API_KEY" ]; then
+            echo "TMDB_API_KEY secret is missing."
+            exit 1
+          fi
+
+      - name: Enrich new Douban subjects
+        if: steps.douban-change.outputs.should_run == 'true'
+        env:
+          DOUBAN_COOKIE: ${{ secrets.DOUBAN_COOKIE }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          RETRY_UNRESOLVED: ${{ inputs.retry_unresolved || 'false' }}
+        run: |
+          args=()
+          if [ "$RETRY_UNRESOLVED" = "true" ]; then
+            args+=(--retry-unresolved)
+          fi
+          python scripts/enrich_tmdb.py "${args[@]}"
+
+      - name: Commit TMDb identity updates
+        if: steps.douban-change.outputs.should_run == 'true'
+        run: |
+          git add -- data/douban_tmdb.json
+          if git diff --cached --quiet -- data/douban_tmdb.json; then
+            echo "No TMDb identity changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update Douban TMDb identities"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            if git push origin "HEAD:$GITHUB_REF_NAME"; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then
+              sleep $((attempt * 5))
+            fi
+          done
+          echo "Unable to push TMDb identity update after 3 attempts."
+          exit 1

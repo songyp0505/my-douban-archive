@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-17T09:45:34+00:00",
+  "generated_at": "2026-08-20T06:23:10+00:00",
   "records": [
     {
       "source": "douban",
@@ -2515,6 +2515,19 @@
       "title": "我不是药神",
       "url": "https://movie.douban.com/subject/26752088/",
       "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": null,
+      "media_type": "movie"
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "36149032",
+      "title": "我们一起摇太阳",
+      "url": "https://movie.douban.com/subject/36149032/",
+      "rating": 3,
       "comment": "",
       "tags": [],
       "marked_at": null,

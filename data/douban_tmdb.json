@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-20T07:15:38+00:00",
+  "generated_at": "2026-08-20T12:58:13+00:00",
   "items": {
     "10440138": {
       "imdb_id": null,
@@ -28,6 +28,27 @@
       "tmdb_id": "127585",
       "tmdb_title": "X战警：逆转未来",
       "year_source": "emby"
+    },
+    "10509888": {
+      "aliases": [
+        "奔跑吧！孩子们",
+        "跑男"
+      ],
+      "douban_year": 2010,
+      "episode_count": null,
+      "imdb_id": null,
+      "match_method": "title_year",
+      "original_title": null,
+      "poster_path": "/15SMnscZqd7HZ0bzruatOcKUlOV.jpg",
+      "production_year": 2010,
+      "resolved_type": "tv",
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "Running Man / 런닝맨",
+      "status": "resolved",
+      "tmdb_id": "33238",
+      "tmdb_title": "Running Man",
+      "year_source": "tmdb"
     },
     "10512661": {
       "imdb_id": null,

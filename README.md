@@ -1,9 +1,11 @@
 # My Douban Archive
 
-Personal Douban movie and book archive powered by GitHub Actions.
+Personal Douban movie and book archive powered by GitHub Actions, with a
+separate conservative Douban-to-TMDb identity archive.
 
-This project only stores your own Douban records. It does not connect to Emby,
-TMDb, Trakt, Bark, or any local service from the parent project.
+This project only stores your own Douban records and public title metadata. It
+does not connect to Emby, Trakt, Bark, or any local service from the parent
+project.
 
 ## What It Saves
 
@@ -25,9 +27,30 @@ For Douban's movie channel, the archive fetches movie and TV list filters
 separately with `type=movie` and `type=tv`, then saves that list type as
 `media_type`. It does not visit subject detail pages to infer metadata.
 
-It does not save cookies, cover images, full Douban descriptions, other users'
+It does not save cookies, cover image files, full Douban descriptions, other users'
 comments, private messages, group content, rating distributions, or subject
 detail-page content.
+
+## TMDb Identity Archive
+
+`data/douban_tmdb.json` maps movie-channel Douban IDs to stable TMDb identities.
+It is public, just like `data/douban.json`. Resolved records may include the
+Douban title/type, resolved movie/TV type, TMDb ID/title/year/poster path, IMDb
+ID, and the matching method. It never stores Emby IDs, local paths, usernames,
+cookies, or API keys.
+
+New subjects are handled conservatively:
+
+1. Fetch the subject detail page with the existing logged-in Douban session.
+2. If the page exposes an IMDb ID, use TMDb's external-ID find endpoint.
+3. Without IMDb, search both movie and TV and accept only a unique exact
+   title/original-title candidate with a compatible year.
+4. Store uncertain matches as `unresolved`; never select the first fuzzy result.
+5. Store temporary Douban/TMDb failures as `pending` so scheduled runs retry them.
+
+Scheduled runs do not retry `unresolved` records unless an override is added.
+Use the TMDb workflow's `retry_unresolved` manual option after changing matching
+evidence or overrides. Known exceptions belong in `config/tmdb_overrides.json`.
 
 ## GitHub Secrets
 
@@ -35,6 +58,7 @@ Add these repository secrets in GitHub:
 
 - `DOUBAN_COOKIE`: the full Cookie value copied from your logged-in browser.
 - `DOUBAN_USER`: your Douban user ID, for example `188332994`.
+- `TMDB_API_KEY`: a TMDb API key used only by the separate enrichment workflow.
 
 Never commit cookies or API keys into this repository.
 
@@ -46,6 +70,7 @@ export DOUBAN_COOKIE='your full cookie here'
 export DOUBAN_USER='your douban user id'
 python -m pip install -r requirements.txt
 python scripts/selftest_archive.py
+python scripts/selftest_tmdb.py
 python scripts/archive_douban.py --max-pages 1
 ```
 
@@ -53,11 +78,18 @@ The archive will be written to `data/douban.json`.
 
 ## GitHub Actions
 
-The workflow at `.github/workflows/archive.yml` supports:
+The Douban workflow at `.github/workflows/archive.yml` supports:
 
 - Manual runs through `workflow_dispatch`.
 - Scheduled runs every 3 hours.
 - Automatic commits only when `data/douban.json` changes.
+
+TMDb enrichment runs independently through
+`.github/workflows/enrich_tmdb.yml`. It listens for completion of the Douban
+workflow, compares that run's starting commit with the latest `main`, and runs
+the enrichment job only when `data/douban.json` actually changed. Manual runs
+remain available. It commits only `data/douban_tmdb.json`; a failure in either
+workflow does not fail or cancel the other workflow.
 
 If Douban returns 403, a captcha, or a login page, the script stops and asks you
 to refresh `DOUBAN_COOKIE`. It does not try to bypass access checks.

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-20T07:12:55+00:00",
+  "generated_at": "2026-08-20T12:55:07+00:00",
   "records": [
     {
       "source": "douban",
@@ -8809,6 +8809,24 @@
         "小鼹鼠"
       ],
       "release_year": 1957
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "do",
+      "douban_id": "10509888",
+      "title": "Running Man / 런닝맨",
+      "url": "https://movie.douban.com/subject/10509888/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-08-20",
+      "media_type": "tv",
+      "aliases": [
+        "奔跑吧！孩子们",
+        "跑男"
+      ],
+      "release_year": 2010
     },
     {
       "source": "douban",

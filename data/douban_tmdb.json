@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-20T05:57:24+00:00",
+  "generated_at": "2026-08-20T06:26:21+00:00",
   "items": {
     "10440138": {
       "imdb_id": null,
@@ -6230,6 +6230,17 @@
       "tmdb_id": "135238",
       "tmdb_title": "京城怪物",
       "year_source": "emby"
+    },
+    "36149032": {
+      "imdb_id": null,
+      "production_year": null,
+      "reason": "douban_access_blocked",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "movie",
+      "source_title": "我们一起摇太阳",
+      "status": "pending",
+      "tmdb_id": null
     },
     "36151692": {
       "imdb_id": null,

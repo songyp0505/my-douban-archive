@@ -35,8 +35,10 @@ def main() -> int:
     <html><body>
       <div class="grid-view">
         <div class="item">
-          <li class="title"><a href="/subject/1291546/"><em>霸王别姬</em></a></li>
+          <li class="title"><a href="/subject/1291546/"><em>霸王别姬</em> / Farewell My Concubine / 再见，我的妾</a></li>
           <span class="rating5-t" title="力荐"></span>
+          <div class="date">2024-02-18</div>
+          <span class="intro">1993-01-01(中国香港) / 张国荣 / 张丰毅 / 剧情</span>
           <span class="comment">2024-02-18 看过 我的短评 修改 删除</span>
           <span class="tags">标签: 华语 经典</span>
         </div>
@@ -50,6 +52,8 @@ def main() -> int:
     assert movie_records[0]["rating"] == 5
     assert movie_records[0]["comment"] == "我的短评"
     assert movie_records[0]["marked_at"] == "2024-02-18"
+    assert movie_records[0]["aliases"] == ["Farewell My Concubine", "再见，我的妾"]
+    assert movie_records[0]["release_year"] == 1993
     assert "first_seen_at" not in movie_records[0]
     assert "updated_at" not in movie_records[0]
     assert "last_seen_at" not in movie_records[0]
@@ -58,8 +62,9 @@ def main() -> int:
     <html><body>
       <div class="grid-view">
         <div class="item">
-          <li class="title"><a href="/subject/30465634/"><em>一级方程式：疾速争胜 第一季</em></a></li>
-          <span class="comment">2026-05-08 想看 修改 删除</span>
+          <li class="title"><a href="/subject/30465634/"><em>一级方程式：疾速争胜 第一季</em> / Formula 1: Drive to Survive</a></li>
+          <div class="date">2026-05-08</div>
+          <span class="intro">2019-03-08(美国首播) / 刘易斯·汉密尔顿 / 纪录片</span>
         </div>
       </div>
     </body></html>
@@ -69,6 +74,29 @@ def main() -> int:
     assert tv_records[0]["url"] == "https://movie.douban.com/subject/30465634/"
     assert tv_records[0]["media_type"] == "tv"
     assert tv_records[0]["marked_at"] == "2026-05-08"
+    assert tv_records[0]["aliases"] == ["Formula 1: Drive to Survive"]
+    assert tv_records[0]["release_year"] == 2019
+
+    year_only_html = """
+    <div class="grid-view"><div class="item">
+      <li class="title"><a href="/subject/1394968/"><em>举起手来！</em> / Hands Up!</a></li>
+      <div class="date">2020-01-01</div>
+      <span class="intro">2005(中国大陆) / 郭达 / 潘长江 / 喜剧</span>
+    </div></div>
+    """
+    year_only = archive.parse_records(year_only_html, "movie", "collect", fetched_at, media_type="movie")
+    assert year_only[0]["release_year"] == 2005
+
+    missing_year_html = """
+    <div class="grid-view"><div class="item">
+      <li class="title"><a href="/subject/26755511/"><em>古道清凉</em> / 古道清凉 / The Ancient Path to Enlightenment</a></li>
+      <div class="date">2020-01-01</div>
+      <span class="intro">中国大陆 / 古道清凉 / 纪录片</span>
+    </div></div>
+    """
+    missing_year = archive.parse_records(missing_year_html, "movie", "wish", fetched_at, media_type="movie")
+    assert missing_year[0]["aliases"] == ["The Ancient Path to Enlightenment"]
+    assert missing_year[0]["release_year"] is None
 
     book_html = """
     <html><body>
@@ -84,6 +112,8 @@ def main() -> int:
     assert len(book_records) == 1
     assert book_records[0]["url"] == "https://book.douban.com/subject/1234567/"
     assert "media_type" not in book_records[0]
+    assert "aliases" not in book_records[0]
+    assert "release_year" not in book_records[0]
     assert book_records[0]["comment"] == "我的读书短评"
     assert book_records[0]["marked_at"] is None
 
@@ -129,6 +159,8 @@ def main() -> int:
 
     legacy_movie = dict(movie_records[0])
     legacy_movie.pop("media_type")
+    legacy_movie.pop("aliases")
+    legacy_movie.pop("release_year")
     media_type_archive, changed = archive.merge_records(
         {"version": 1, "generated_at": "old", "records": [legacy_movie]},
         movie_records,
@@ -136,6 +168,8 @@ def main() -> int:
     )
     assert changed is True
     assert media_type_archive["records"][0]["media_type"] == "movie"
+    assert media_type_archive["records"][0]["aliases"] == ["Farewell My Concubine", "再见，我的妾"]
+    assert media_type_archive["records"][0]["release_year"] == 1993
 
     old_timestamp_record = {**movie_records[0], "first_seen_at": fetched_at, "updated_at": fetched_at, "last_seen_at": fetched_at}
     cleaned_archive, changed = archive.merge_records(
@@ -190,6 +224,24 @@ def main() -> int:
     )
     expect_error(
         lambda: archive.validate_archive(
+            {"version": 1, "records": [{**movie_records[0], "aliases": "not-a-list"}]},
+            1,
+            "dbcl2=secret-value-123",
+            False,
+        ),
+        "invalid aliases should fail validation",
+    )
+    expect_error(
+        lambda: archive.validate_archive(
+            {"version": 1, "records": [{**movie_records[0], "release_year": 99}]},
+            1,
+            "dbcl2=secret-value-123",
+            False,
+        ),
+        "invalid release year should fail validation",
+    )
+    expect_error(
+        lambda: archive.validate_archive(
             {"version": 1, "records": movie_records},
             1,
             "dbcl2=secret-value-123",
@@ -206,6 +258,15 @@ def main() -> int:
             False,
         ),
         "book records with media_type should fail validation",
+    )
+    expect_error(
+        lambda: archive.validate_archive(
+            {"version": 1, "records": [{**book_records[0], "aliases": ["不应存在"]}]},
+            1,
+            "dbcl2=secret-value-123",
+            False,
+        ),
+        "book records with movie metadata should fail validation",
     )
 
     movie_url = archive.build_list_url("movie", "188332994", "wish", "movie")

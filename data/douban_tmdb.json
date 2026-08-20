@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-20T06:26:21+00:00",
+  "generated_at": "2026-08-20T07:15:38+00:00",
   "items": {
     "10440138": {
       "imdb_id": null,
@@ -6232,15 +6232,25 @@
       "year_source": "emby"
     },
     "36149032": {
+      "aliases": [
+        "人间喜事",
+        "人生大事2"
+      ],
+      "douban_year": 2024,
+      "episode_count": null,
       "imdb_id": null,
-      "production_year": null,
-      "reason": "douban_access_blocked",
-      "resolved_type": null,
+      "match_method": "title_year",
+      "original_title": null,
+      "poster_path": "/hDr0lUFDzzbXkegxtyUTuOxRlwp.jpg",
+      "production_year": 2024,
+      "resolved_type": "movie",
       "source": "github:tmdb",
       "source_media_type": "movie",
       "source_title": "我们一起摇太阳",
-      "status": "pending",
-      "tmdb_id": null
+      "status": "resolved",
+      "tmdb_id": "1212009",
+      "tmdb_title": "我们一起摇太阳",
+      "year_source": "tmdb"
     },
     "36151692": {
       "imdb_id": null,

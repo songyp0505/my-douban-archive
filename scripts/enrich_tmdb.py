@@ -13,12 +13,9 @@ import time
 import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 import requests
-from bs4 import BeautifulSoup
-
-from archive_douban import DoubanArchiveError, build_session
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -39,36 +36,6 @@ class TemporaryItemError(RuntimeError):
     def __init__(self, reason: str):
         super().__init__(reason)
         self.reason = reason
-
-
-def fetch_detail_page(session: requests.Session, url: str, timeout: int, retries: int) -> str:
-    response = None
-    for attempt in range(retries + 1):
-        try:
-            response = session.get(url, timeout=timeout, allow_redirects=True)
-        except requests.RequestException as exc:
-            if attempt >= retries:
-                raise DoubanArchiveError("Douban detail request failed after retries") from exc
-            time.sleep(3 + attempt * 5)
-            continue
-        if response.status_code in {429, 500, 502, 503, 504} and attempt < retries:
-            time.sleep(3 + attempt * 5)
-            continue
-        break
-
-    if response is None:
-        raise DoubanArchiveError("Douban detail request returned no response")
-    final_url = response.url.lower()
-    text = response.text
-    if response.status_code == 403:
-        raise DoubanArchiveError("Douban detail returned 403")
-    if response.status_code >= 400:
-        raise DoubanArchiveError(f"Douban detail returned HTTP {response.status_code}")
-    if "sec.douban.com" in final_url or "captcha" in final_url or "captcha" in text.lower() or "检测到有异常请求" in text:
-        raise DoubanArchiveError("Douban detail requested captcha")
-    if "accounts.douban.com" in final_url or "登录豆瓣" in text:
-        raise DoubanArchiveError("Douban detail requires login")
-    return text
 
 
 def load_json(path: Path, default: Any = None) -> Any:
@@ -100,69 +67,16 @@ def split_titles(value: Any) -> List[str]:
     return result
 
 
-def _first_text(soup: BeautifulSoup, selectors: Sequence[str]) -> str:
-    for selector in selectors:
-        node = soup.select_one(selector)
-        if node:
-            value = re.sub(r"\s+", " ", node.get_text(" ", strip=True)).strip()
-            if value:
-                return value
-    return ""
-
-
-def _info_value(info_text: str, label: str) -> str:
-    match = re.search(rf"(?:^|\n)\s*{re.escape(label)}\s*[:：]\s*([^\n]+)", info_text)
-    return re.sub(r"\s+", " ", match.group(1)).strip() if match else ""
-
-
-def parse_douban_detail(html: str, fallback_title: str = "") -> Dict[str, Any]:
-    soup = BeautifulSoup(html, "lxml")
-    title = _first_text(soup, ["span[property='v:itemreviewed']", "h1 span", "meta[property='og:title']"])
-    if not title:
-        og_title = soup.select_one("meta[property='og:title']")
-        title = str(og_title.get("content") or "").strip() if og_title else ""
-    title = re.sub(r"\s*\(豆瓣\)\s*$", "", title).strip() or split_titles(fallback_title)[0]
-
-    year_node = soup.select_one("h1 .year, span.year")
-    douban_year = clean_year(year_node.get_text(" ", strip=True) if year_node else None)
-    info = soup.select_one("#info")
-    info_text = info.get_text("\n", strip=True) if info else ""
-    original_title = _info_value(info_text, "原名")
-    alias_text = _info_value(info_text, "又名")
-    aliases = [part.strip() for part in re.split(r"\s*/\s*", alias_text) if part.strip()]
-    imdb_match = re.search(r"\btt\d{5,12}\b", info_text, flags=re.IGNORECASE)
-    episode_count = clean_positive_int(_info_value(info_text, "集数"))
-
-    for node in soup.select("script[type='application/ld+json']"):
-        try:
-            payload = json.loads(node.string or node.get_text() or "{}")
-        except json.JSONDecodeError:
-            continue
-        candidates = payload if isinstance(payload, list) else [payload]
-        for candidate in candidates:
-            if not isinstance(candidate, dict):
-                continue
-            if not title:
-                title = str(candidate.get("name") or "").strip()
-            if douban_year is None:
-                douban_year = clean_year(candidate.get("datePublished"))
-
+def archive_evidence(record: Dict[str, Any]) -> Dict[str, Any]:
+    aliases = record.get("aliases") if isinstance(record.get("aliases"), list) else []
     return {
-        "douban_title": title,
-        "original_title": original_title,
-        "aliases": aliases,
-        "douban_year": douban_year,
-        "imdb_id": imdb_match.group(0).lower() if imdb_match else None,
-        "episode_count": episode_count,
+        "douban_title": str(record.get("title") or "").strip(),
+        "original_title": None,
+        "aliases": [str(alias).strip() for alias in aliases if str(alias).strip()],
+        "douban_year": clean_year(record.get("release_year")),
+        "imdb_id": None,
+        "episode_count": None,
     }
-
-
-def clean_positive_int(value: Any) -> Optional[int]:
-    match = re.search(r"\d+", str(value or ""))
-    if not match:
-        return None
-    number = int(match.group(0))
-    return number if number > 0 else None
 
 
 def movie_records(archive: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
@@ -178,6 +92,11 @@ def movie_records(archive: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
             raise EnrichmentError("Archive contains an invalid movie Douban ID")
         if record.get("media_type") not in {"movie", "tv"}:
             raise EnrichmentError(f"Archive item {douban_id} has no valid media_type")
+        if not isinstance(record.get("aliases"), list):
+            raise EnrichmentError(f"Archive item {douban_id} has invalid aliases")
+        release_year = record.get("release_year")
+        if release_year is not None and type(release_year) is not int:
+            raise EnrichmentError(f"Archive item {douban_id} has invalid release_year")
         if douban_id in result:
             raise EnrichmentError(f"Archive contains duplicate Douban ID: {douban_id}")
         result[douban_id] = record
@@ -213,16 +132,6 @@ class TmdbClient:
             raise TemporaryItemError("tmdb_invalid_response")
         return payload
 
-    def find_by_imdb(self, imdb_id: str) -> List[Tuple[str, Dict[str, Any]]]:
-        payload = self.get_json(
-            f"/find/{imdb_id}",
-            {"external_source": "imdb_id", "language": "zh-CN"},
-        )
-        results: List[Tuple[str, Dict[str, Any]]] = []
-        results.extend(("movie", row) for row in payload.get("movie_results") or [] if isinstance(row, dict))
-        results.extend(("tv", row) for row in payload.get("tv_results") or [] if isinstance(row, dict))
-        return results
-
     def search(self, media_type: str, query: str) -> List[Dict[str, Any]]:
         payload = self.get_json(
             f"/search/{media_type}",
@@ -250,6 +159,8 @@ def evidence_titles(record: Dict[str, Any], detail: Dict[str, Any]) -> List[str]
     for value in [detail.get("original_title"), detail.get("douban_title")]:
         values.extend(split_titles(value))
     for value in detail.get("aliases") or []:
+        values.extend(split_titles(value))
+    for value in record.get("aliases") or []:
         values.extend(split_titles(value))
     values.extend(split_titles(record.get("title")))
     unique: List[str] = []
@@ -394,27 +305,16 @@ class Enricher:
     def __init__(
         self,
         tmdb: Any,
-        detail_fetcher: Callable[[Dict[str, Any]], str],
         sleep_range: Tuple[float, float] = (3.0, 8.0),
     ):
         self.tmdb = tmdb
-        self.detail_fetcher = detail_fetcher
         self.sleep_range = sleep_range
 
     def resolve(self, record: Dict[str, Any], override: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         if override:
             return override_item(record, override)
         try:
-            detail = parse_douban_detail(self.detail_fetcher(record), str(record.get("title") or ""))
-            if detail.get("imdb_id"):
-                matches = self.tmdb.find_by_imdb(detail["imdb_id"])
-                if len(matches) != 1:
-                    reason = "imdb_no_match" if not matches else "imdb_ambiguous_match"
-                    return unresolved_item(record, detail, reason)
-                media_type, found = matches[0]
-                full = self.tmdb.details(media_type, str(found.get("id") or ""))
-                return resolved_item(record, detail, media_type, full, "imdb")
-
+            detail = archive_evidence(record)
             candidates: List[Tuple[str, Dict[str, Any]]] = []
             for query in evidence_titles(record, detail):
                 for media_type in ("movie", "tv"):
@@ -425,10 +325,6 @@ class Enricher:
             media_type, found = chosen
             full = self.tmdb.details(media_type, str(found.get("id") or ""))
             return resolved_item(record, detail, media_type, full, "title_year")
-        except DoubanArchiveError as exc:
-            message = str(exc).lower()
-            reason = "douban_access_blocked" if any(token in message for token in ("captcha", "403", "login", "security", "登录")) else "douban_temporarily_unavailable"
-            return pending_item(record, reason)
         except TemporaryItemError as exc:
             return pending_item(record, exc.reason)
 
@@ -519,21 +415,14 @@ def enrich(
             candidates.append((4, douban_id))
 
     fetched = 0
-    access_blocked = False
     for _priority, douban_id in sorted(candidates, key=lambda value: (value[0], int(value[1]))):
         record = records[douban_id]
         override = overrides.get(douban_id) if isinstance(overrides.get(douban_id), dict) else None
-        if access_blocked and not override:
-            if douban_id not in items:
-                items[douban_id] = pending_item(record, "douban_access_blocked")
-            continue
         if not override and fetched >= max_items:
             if douban_id not in items:
                 items[douban_id] = pending_item(record, "batch_limit")
             continue
         items[douban_id] = enricher.resolve(record, override)
-        if items[douban_id].get("reason") == "douban_access_blocked":
-            access_blocked = True
         if not override:
             fetched += 1
             if fetched < max_items and enricher.sleep_range[1] > 0:
@@ -587,10 +476,7 @@ def main() -> int:
         raise EnrichmentError("--max-items must be at least 1")
     if args.min_sleep < 0 or args.min_sleep > args.max_sleep:
         raise EnrichmentError("Invalid sleep range")
-    cookie = os.environ.get("DOUBAN_COOKIE", "").strip()
     api_key = os.environ.get("TMDB_API_KEY", "").strip()
-    if not cookie:
-        raise EnrichmentError("Missing DOUBAN_COOKIE")
 
     archive = load_json(ARCHIVE_FILE)
     cache = load_json(TMDB_FILE, {"version": 1, "generated_at": None, "items": {}})
@@ -598,23 +484,15 @@ def main() -> int:
     if not isinstance(overrides, dict):
         raise EnrichmentError("TMDb overrides must be an object")
 
-    douban_session = build_session(cookie)
-
-    def detail_fetcher(record: Dict[str, Any]) -> str:
-        url = str(record.get("url") or "").strip()
-        if not re.match(r"^https://movie\.douban\.com/subject/\d+/?", url):
-            raise EnrichmentError(f"Invalid Douban detail URL for {record.get('douban_id')}")
-        return fetch_detail_page(douban_session, url, args.timeout, args.retries)
-
     tmdb = TmdbClient(api_key, timeout=args.timeout)
     payload, stats = enrich(
         archive,
         cache,
         overrides,
-        Enricher(tmdb, detail_fetcher, (args.min_sleep, args.max_sleep)),
+        Enricher(tmdb, (args.min_sleep, args.max_sleep)),
         args.max_items,
         args.retry_unresolved,
-        (cookie, api_key),
+        (api_key,),
     )
     print(json.dumps(stats, ensure_ascii=False, sort_keys=True))
     if stats["changed"] and not args.dry_run:

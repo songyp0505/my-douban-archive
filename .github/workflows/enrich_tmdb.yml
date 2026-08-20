@@ -75,13 +75,8 @@ jobs:
       - name: Check required secrets
         if: steps.douban-change.outputs.should_run == 'true'
         env:
-          DOUBAN_COOKIE: ${{ secrets.DOUBAN_COOKIE }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: |
-          if [ -z "$DOUBAN_COOKIE" ]; then
-            echo "DOUBAN_COOKIE secret is missing."
-            exit 1
-          fi
           if [ -z "$TMDB_API_KEY" ]; then
             echo "TMDB_API_KEY secret is missing."
             exit 1
@@ -90,7 +85,6 @@ jobs:
       - name: Enrich new Douban subjects
         if: steps.douban-change.outputs.should_run == 'true'
         env:
-          DOUBAN_COOKIE: ${{ secrets.DOUBAN_COOKIE }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           RETRY_UNRESOLVED: ${{ inputs.retry_unresolved || 'false' }}
         run: |

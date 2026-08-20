@@ -14,6 +14,8 @@ project.
 - Status: `wish`, `do`, or `collect`
 - Douban subject ID
 - Title
+- Alternate titles shown by Douban's movie/TV grid
+- Release year parsed from the first full release date in the movie/TV grid
 - Douban subject URL
 - Your own rating, if present
 - Your own short comment, if present
@@ -25,7 +27,8 @@ time. Individual records do not store repeated archive timestamps.
 
 For Douban's movie channel, the archive fetches movie and TV list filters
 separately with `type=movie` and `type=tv`, then saves that list type as
-`media_type`. It does not visit subject detail pages to infer metadata.
+`media_type`. The same grid response supplies alternate titles, release year,
+and the date you marked the item. It does not visit subject detail pages.
 
 It does not save cookies, cover image files, full Douban descriptions, other users'
 comments, private messages, group content, rating distributions, or subject
@@ -39,14 +42,14 @@ Douban title/type, resolved movie/TV type, TMDb ID/title/year/poster path, IMDb
 ID, and the matching method. It never stores Emby IDs, local paths, usernames,
 cookies, or API keys.
 
-New subjects are handled conservatively:
+New subjects are handled conservatively without any additional Douban request:
 
-1. Fetch the subject detail page with the existing logged-in Douban session.
-2. If the page exposes an IMDb ID, use TMDb's external-ID find endpoint.
-3. Without IMDb, search both movie and TV and accept only a unique exact
-   title/original-title candidate with a compatible year.
+1. Read the archived main title, alternate titles, release year, and list type.
+2. Search both TMDb movie and TV endpoints.
+3. Accept only a unique exact title/original-title candidate with a compatible
+   year; the archived list type is supporting evidence rather than authority.
 4. Store uncertain matches as `unresolved`; never select the first fuzzy result.
-5. Store temporary Douban/TMDb failures as `pending` so scheduled runs retry them.
+5. Store temporary TMDb failures as `pending` so later runs retry them.
 
 Scheduled runs do not retry `unresolved` records unless an override is added.
 Use the TMDb workflow's `retry_unresolved` manual option after changing matching

@@ -34,8 +34,11 @@ CATEGORY_BASE_URLS = {
 STATUSES = ("wish", "do", "collect")
 MEDIA_TYPES = ("movie", "tv")
 RECORD_FIELDS = ("source", "category", "status", "douban_id", "title", "url", "rating", "comment", "tags", "marked_at")
+MOVIE_METADATA_FIELDS = ("aliases", "release_year")
 SENSITIVE_COOKIE_NAMES = ("dbcl2", "ck", "push_noty_num", "push_doumail_num")
 REMOVED_RECORD_FIELDS = ("first_seen_at", "updated_at", "last_seen_at")
+FULL_DATE_PATTERN = re.compile(r"(?<!\d)((?:18|19|20|21)\d{2})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])(?!\d)")
+LEADING_YEAR_PATTERN = re.compile(r"^((?:18|19|20|21)\d{2})(?=\s*\()")
 
 
 class DoubanArchiveError(RuntimeError):
@@ -154,8 +157,14 @@ def clean_comment(text: str) -> str:
 
 
 def extract_marked_at(item) -> Optional[str]:
+    date_node = item.select_one(".date")
+    if date_node:
+        match = FULL_DATE_PATTERN.search(normalize_space(text_or_empty(date_node)))
+        if match:
+            return match.group(0)
+
     text = normalize_space(text_or_empty(item))
-    match = re.search(r"\b(\d{4}-\d{2}-\d{2})\s*(读过|看过|想读|想看|在读|在看)\b", text)
+    match = re.search(r"\b((?:18|19|20|21)\d{2}-\d{2}-\d{2})\s*(读过|看过|想读|想看|在读|在看)\b", text)
     return match.group(1) if match else None
 
 
@@ -186,6 +195,30 @@ def extract_title(item) -> str:
         if text:
             return text
     return ""
+
+
+def extract_aliases(item, title: str) -> List[str]:
+    title_link = item.select_one("li.title a, .title a")
+    full_title = normalize_space(text_or_empty(title_link))
+    if not title or not full_title or full_title == title:
+        return []
+
+    remainder = full_title[len(title):].strip() if full_title.startswith(title) else full_title
+    remainder = re.sub(r"^\s*/\s*", "", remainder)
+    aliases: List[str] = []
+    for alias in re.split(r"\s+/\s+", remainder):
+        alias = normalize_space(alias)
+        if alias and alias != title and alias not in aliases:
+            aliases.append(alias)
+    return aliases
+
+
+def extract_release_year(item) -> Optional[int]:
+    intro = normalize_space(text_or_empty(item.select_one(".intro")))
+    match = FULL_DATE_PATTERN.search(intro)
+    if not match:
+        match = LEADING_YEAR_PATTERN.search(intro)
+    return int(match.group(1)) if match else None
 
 
 def find_items(soup: BeautifulSoup) -> Iterable:
@@ -251,6 +284,8 @@ def parse_records(html: str, category: str, status: str, fetched_at: str, media_
         }
         if category == "movie":
             record["media_type"] = media_type
+            record["aliases"] = extract_aliases(item, title)
+            record["release_year"] = extract_release_year(item)
 
         records.append(record)
 
@@ -288,8 +323,13 @@ def record_key(record: Dict[str, object]) -> Optional[str]:
 
 def normalize_record(record: Dict[str, object]) -> Dict[str, object]:
     normalized = {field: record.get(field) for field in RECORD_FIELDS}
-    if normalized.get("category") == "movie" and "media_type" in record:
-        normalized["media_type"] = str(record.get("media_type") or "")
+    if normalized.get("category") == "movie":
+        if "media_type" in record:
+            normalized["media_type"] = str(record.get("media_type") or "")
+        aliases = record.get("aliases")
+        normalized["aliases"] = aliases if isinstance(aliases, list) else []
+        release_year = record.get("release_year")
+        normalized["release_year"] = release_year if type(release_year) is int else None
     normalized["comment"] = clean_comment(str(normalized.get("comment") or ""))
     tags = normalized.get("tags")
     normalized["tags"] = tags if isinstance(tags, list) else []
@@ -385,8 +425,20 @@ def validate_archive(
             media_type = record.get("media_type")
             if media_type is not None and media_type not in MEDIA_TYPES:
                 raise DoubanArchiveError("Archive validation failed: invalid media_type.")
-        elif "media_type" in record:
-            raise DoubanArchiveError("Archive validation failed: only movie-category records may have media_type.")
+            aliases = record.get("aliases")
+            if not isinstance(aliases, list) or any(not isinstance(alias, str) or not alias.strip() for alias in aliases):
+                raise DoubanArchiveError("Archive validation failed: movie aliases must be a list of non-empty strings.")
+            if len(aliases) != len(set(aliases)):
+                raise DoubanArchiveError("Archive validation failed: movie aliases must be unique.")
+            release_year = record.get("release_year")
+            if release_year is not None and (type(release_year) is not int or not 1800 <= release_year <= 2199):
+                raise DoubanArchiveError("Archive validation failed: release_year must be 1800-2199 or null.")
+        else:
+            unexpected = [field for field in ("media_type", *MOVIE_METADATA_FIELDS) if field in record]
+            if unexpected:
+                raise DoubanArchiveError(
+                    "Archive validation failed: only movie-category records may have " + ", ".join(unexpected) + "."
+                )
         if record.get("status") not in STATUSES:
             raise DoubanArchiveError("Archive validation failed: unknown status.")
         if not re.match(r"^\d+$", str(record.get("douban_id", ""))):
@@ -406,10 +458,16 @@ def validate_archive(
             raise DoubanArchiveError("Archive validation failed: Douban status text leaked into comment.")
 
     for record in fresh_records or []:
-        if record.get("category") == "movie" and record.get("media_type") not in MEDIA_TYPES:
-            raise DoubanArchiveError("Archive validation failed: fresh movie records must include media_type.")
-        if record.get("category") == "book" and "media_type" in record:
-            raise DoubanArchiveError("Archive validation failed: fresh book records must not include media_type.")
+        if record.get("category") == "movie":
+            if record.get("media_type") not in MEDIA_TYPES:
+                raise DoubanArchiveError("Archive validation failed: fresh movie records must include media_type.")
+            missing_metadata = [field for field in MOVIE_METADATA_FIELDS if field not in record]
+            if missing_metadata:
+                raise DoubanArchiveError(
+                    "Archive validation failed: fresh movie records must include " + ", ".join(missing_metadata) + "."
+                )
+        elif any(field in record for field in ("media_type", *MOVIE_METADATA_FIELDS)):
+            raise DoubanArchiveError("Archive validation failed: fresh book records contain movie metadata.")
 
 
 def write_archive(result: Dict[str, object]) -> None:

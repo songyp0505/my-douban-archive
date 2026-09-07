@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-20T12:55:07+00:00",
+  "generated_at": "2026-09-07T03:44:23+00:00",
   "records": [
     {
       "source": "douban",
@@ -10011,6 +10011,42 @@
         "幸运"
       ],
       "release_year": 2026
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "37926820",
+      "title": "思想验证区域 第二季 / 사상검증구역: 더 커뮤니티 2",
+      "url": "https://movie.douban.com/subject/37926820/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-07",
+      "media_type": "tv",
+      "aliases": [
+        "더 커뮤니티2: 보이지 않는 손",
+        "The Community 2: 看不见的手"
+      ],
+      "release_year": 2026
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "36722428",
+      "title": "思想验证区域：The Community / 사상검증구역: 더 커뮤니티",
+      "url": "https://movie.douban.com/subject/36722428/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-07",
+      "media_type": "tv",
+      "aliases": [
+        "思维验证区域",
+        "The Thought Verification Zone: The Community"
+      ],
+      "release_year": 2024
     },
     {
       "source": "douban",

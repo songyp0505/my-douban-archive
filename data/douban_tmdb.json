@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-20T12:58:13+00:00",
+  "generated_at": "2026-09-07T03:47:22+00:00",
   "items": {
     "10440138": {
       "imdb_id": null,
@@ -6651,6 +6651,24 @@
       "tmdb_title": "好搭档",
       "year_source": "emby"
     },
+    "36722428": {
+      "aliases": [
+        "思维验证区域",
+        "The Thought Verification Zone: The Community"
+      ],
+      "douban_year": 2024,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "思想验证区域：The Community / 사상검증구역: 더 커뮤니티",
+      "status": "unresolved",
+      "tmdb_id": null
+    },
     "36728860": {
       "imdb_id": null,
       "match_method": "seed",
@@ -7028,6 +7046,24 @@
       "tmdb_id": "309435",
       "tmdb_title": "蒙古草原，天气晴",
       "year_source": "emby"
+    },
+    "37926820": {
+      "aliases": [
+        "더 커뮤니티2: 보이지 않는 손",
+        "The Community 2: 看不见的手"
+      ],
+      "douban_year": 2026,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "思想验证区域 第二季 / 사상검증구역: 더 커뮤니티 2",
+      "status": "unresolved",
+      "tmdb_id": null
     },
     "3821067": {
       "imdb_id": null,

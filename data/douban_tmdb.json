@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-07T03:47:22+00:00",
+  "generated_at": "2026-09-15T16:39:12+00:00",
   "items": {
     "10440138": {
       "imdb_id": null,
@@ -2849,6 +2849,24 @@
       "tmdb_id": "457251",
       "tmdb_title": "芳华",
       "year_source": "emby"
+    },
+    "26877925": {
+      "aliases": [
+        "斯特莱克探案集：布谷鸟的呼唤",
+        "神探斯特莱克"
+      ],
+      "douban_year": 2017,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "斯特莱克探案集：布谷鸟的呼唤 第一季 / Strike: The Cuckoo's Calling Season 1",
+      "status": "unresolved",
+      "tmdb_id": null
     },
     "26882457": {
       "imdb_id": null,
@@ -6990,6 +7008,27 @@
       "tmdb_id": "1454209",
       "tmdb_title": "非穷尽列举",
       "year_source": "emby"
+    },
+    "37305629": {
+      "aliases": [
+        "The New Yorker：纽约客百年史(台)",
+        "The New Yorker：传奇杂志百年史"
+      ],
+      "douban_year": 2025,
+      "episode_count": null,
+      "imdb_id": null,
+      "match_method": "title_year",
+      "original_title": null,
+      "poster_path": "/4vNUHGzIFxI267gFZpq3eM8m0bl.jpg",
+      "production_year": 2025,
+      "resolved_type": "movie",
+      "source": "github:tmdb",
+      "source_media_type": "movie",
+      "source_title": "纽约客：传奇杂志百年史 / The New Yorker at 100",
+      "status": "resolved",
+      "tmdb_id": "1423024",
+      "tmdb_title": "纽约客：传奇杂志百年史",
+      "year_source": "tmdb"
     },
     "37311135": {
       "imdb_id": null,

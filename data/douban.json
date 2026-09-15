@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-10T03:53:05+00:00",
+  "generated_at": "2026-09-15T16:35:51+00:00",
   "records": [
     {
       "source": "douban",
@@ -9571,6 +9571,24 @@
       "source": "douban",
       "category": "movie",
       "status": "wish",
+      "douban_id": "37305629",
+      "title": "纽约客：传奇杂志百年史 / The New Yorker at 100",
+      "url": "https://movie.douban.com/subject/37305629/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-16",
+      "media_type": "movie",
+      "aliases": [
+        "The New Yorker：纽约客百年史(台)",
+        "The New Yorker：传奇杂志百年史"
+      ],
+      "release_year": 2025
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
       "douban_id": "1302642",
       "title": "花火 / HANA-BI",
       "url": "https://movie.douban.com/subject/1302642/",
@@ -10134,6 +10152,24 @@
         "行业"
       ],
       "release_year": 2020
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "26877925",
+      "title": "斯特莱克探案集：布谷鸟的呼唤 第一季 / Strike: The Cuckoo's Calling Season 1",
+      "url": "https://movie.douban.com/subject/26877925/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-16",
+      "media_type": "tv",
+      "aliases": [
+        "斯特莱克探案集：布谷鸟的呼唤",
+        "神探斯特莱克"
+      ],
+      "release_year": 2017
     },
     {
       "source": "douban",

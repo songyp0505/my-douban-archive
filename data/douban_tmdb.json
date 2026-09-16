@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-15T16:39:12+00:00",
+  "generated_at": "2026-09-16T16:31:41+00:00",
   "items": {
     "10440138": {
       "imdb_id": null,
@@ -4519,6 +4519,24 @@
       "tmdb_id": "615173",
       "tmdb_title": "魔女2",
       "year_source": "emby"
+    },
+    "34839005": {
+      "aliases": [
+        "我买了一个农场",
+        "I Bought the Farm"
+      ],
+      "douban_year": 2021,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "克拉克森的农场 第一季 / Clarkson's Farm Season 1",
+      "status": "unresolved",
+      "tmdb_id": null
     },
     "34848578": {
       "imdb_id": null,

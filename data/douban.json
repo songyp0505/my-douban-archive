@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-15T16:35:51+00:00",
+  "generated_at": "2026-09-16T16:28:33+00:00",
   "records": [
     {
       "source": "douban",
@@ -7126,6 +7126,24 @@
         "Once Upon a Small Town"
       ],
       "release_year": 2022
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "34839005",
+      "title": "克拉克森的农场 第一季 / Clarkson's Farm Season 1",
+      "url": "https://movie.douban.com/subject/34839005/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-16",
+      "media_type": "tv",
+      "aliases": [
+        "我买了一个农场",
+        "I Bought the Farm"
+      ],
+      "release_year": 2021
     },
     {
       "source": "douban",

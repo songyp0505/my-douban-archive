@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-16T16:28:33+00:00",
+  "generated_at": "2026-09-17T11:18:00+00:00",
   "records": [
     {
       "source": "douban",
@@ -673,6 +673,18 @@
       "comment": "",
       "tags": [],
       "marked_at": "2024-06-13"
+    },
+    {
+      "source": "douban",
+      "category": "book",
+      "status": "wish",
+      "douban_id": "38414641",
+      "title": "幣安人生 : 幸運、韌性與保護用戶的回憶錄",
+      "url": "https://book.douban.com/subject/38414641/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-17"
     },
     {
       "source": "douban",

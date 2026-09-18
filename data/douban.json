@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-17T11:18:00+00:00",
+  "generated_at": "2026-09-18T10:51:00+00:00",
   "records": [
     {
       "source": "douban",
@@ -7156,6 +7156,38 @@
         "I Bought the Farm"
       ],
       "release_year": 2021
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "36181862",
+      "title": "克拉克森的农场 第三季 / Clarkson's Farm Season 3",
+      "url": "https://movie.douban.com/subject/36181862/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-18",
+      "media_type": "tv",
+      "aliases": [],
+      "release_year": 2024
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "35517450",
+      "title": "克拉克森的农场 第二季 / Clarkson's Farm Season 2",
+      "url": "https://movie.douban.com/subject/35517450/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-18",
+      "media_type": "tv",
+      "aliases": [
+        "Clarkson’s Farm 2"
+      ],
+      "release_year": 2023
     },
     {
       "source": "douban",

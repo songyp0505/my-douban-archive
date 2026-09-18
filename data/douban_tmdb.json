@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-16T16:31:41+00:00",
+  "generated_at": "2026-09-18T10:54:25+00:00",
   "items": {
     "10440138": {
       "imdb_id": null,
@@ -5602,6 +5602,23 @@
       "tmdb_title": "低智商犯罪",
       "year_source": "emby"
     },
+    "35517450": {
+      "aliases": [
+        "Clarkson’s Farm 2"
+      ],
+      "douban_year": 2023,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "克拉克森的农场 第二季 / Clarkson's Farm Season 2",
+      "status": "unresolved",
+      "tmdb_id": null
+    },
     "35521951": {
       "imdb_id": null,
       "match_method": "seed",
@@ -6364,6 +6381,21 @@
       "tmdb_id": "1054867",
       "tmdb_title": "一战再战",
       "year_source": "emby"
+    },
+    "36181862": {
+      "aliases": [],
+      "douban_year": 2024,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "克拉克森的农场 第三季 / Clarkson's Farm Season 3",
+      "status": "unresolved",
+      "tmdb_id": null
     },
     "36193784": {
       "imdb_id": null,

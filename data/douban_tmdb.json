@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T10:54:25+00:00",
+  "generated_at": "2026-09-21T12:26:51+00:00",
   "items": {
     "10440138": {
       "imdb_id": null,
@@ -301,6 +301,27 @@
       "tmdb_id": "12",
       "tmdb_title": "海底总动员",
       "year_source": "emby"
+    },
+    "1291832": {
+      "aliases": [
+        "危险人物(港)",
+        "黑色追缉令(台)"
+      ],
+      "douban_year": 1994,
+      "episode_count": null,
+      "imdb_id": null,
+      "match_method": "title_year",
+      "original_title": null,
+      "poster_path": "/WZW5PCtCbtyKfojdLlPCi89DNx.jpg",
+      "production_year": 1994,
+      "resolved_type": "movie",
+      "source": "github:tmdb",
+      "source_media_type": "movie",
+      "source_title": "低俗小说 / Pulp Fiction",
+      "status": "resolved",
+      "tmdb_id": "680",
+      "tmdb_title": "低俗小说",
+      "year_source": "tmdb"
     },
     "1291838": {
       "imdb_id": null,
@@ -3050,6 +3071,27 @@
       "tmdb_title": "蜘蛛侠：英雄远征",
       "year_source": "emby"
     },
+    "26933210": {
+      "aliases": [
+        "新蜘蛛侠3",
+        "蜘蛛侠：无回之战"
+      ],
+      "douban_year": 2021,
+      "episode_count": null,
+      "imdb_id": null,
+      "match_method": "title_year",
+      "original_title": null,
+      "poster_path": "/qP4r8QqiY2tybpErs7JEOMwhTnp.jpg",
+      "production_year": 2021,
+      "resolved_type": "movie",
+      "source": "github:tmdb",
+      "source_media_type": "movie",
+      "source_title": "蜘蛛侠：英雄无归 / Spider-Man: No Way Home",
+      "status": "resolved",
+      "tmdb_id": "634649",
+      "tmdb_title": "Spider-Man: No Way Home",
+      "year_source": "tmdb"
+    },
     "26935251": {
       "imdb_id": null,
       "match_method": "seed",
@@ -3077,6 +3119,27 @@
       "tmdb_id": "479718",
       "tmdb_title": "犯罪都市",
       "year_source": "emby"
+    },
+    "26957900": {
+      "aliases": [
+        "死侍3",
+        "死侍与死党"
+      ],
+      "douban_year": 2024,
+      "episode_count": null,
+      "imdb_id": null,
+      "match_method": "title_year",
+      "original_title": null,
+      "poster_path": "/nSpk8U35rPVlMMfZ1uxHnbC14Nd.jpg",
+      "production_year": 2024,
+      "resolved_type": "movie",
+      "source": "github:tmdb",
+      "source_media_type": "movie",
+      "source_title": "死侍与金刚狼 / Deadpool & Wolverine",
+      "status": "resolved",
+      "tmdb_id": "533535",
+      "tmdb_title": "死侍与金刚狼",
+      "year_source": "tmdb"
     },
     "26985127": {
       "imdb_id": null,
@@ -3848,6 +3911,27 @@
       "tmdb_title": "猎鹰与冬兵",
       "year_source": "emby"
     },
+    "30382416": {
+      "aliases": [
+        "毒魔：血战大屠杀(港)",
+        "猛毒2：血蜘蛛(台)"
+      ],
+      "douban_year": 2021,
+      "episode_count": null,
+      "imdb_id": null,
+      "match_method": "title_year",
+      "original_title": null,
+      "poster_path": "/x6z8iFbBI4gaA6l8vcFgaduuVqF.jpg",
+      "production_year": 2021,
+      "resolved_type": "movie",
+      "source": "github:tmdb",
+      "source_media_type": "movie",
+      "source_title": "毒液2 / Venom: Let There Be Carnage",
+      "status": "resolved",
+      "tmdb_id": "580489",
+      "tmdb_title": "毒液2",
+      "year_source": "tmdb"
+    },
     "30391186": {
       "imdb_id": null,
       "match_method": "seed",
@@ -3861,6 +3945,27 @@
       "tmdb_id": "569094",
       "tmdb_title": "蜘蛛侠：纵横宇宙",
       "year_source": "emby"
+    },
+    "30394797": {
+      "aliases": [
+        "尚气与十戒传奇",
+        "尚气与十环帮传奇(港)"
+      ],
+      "douban_year": 2021,
+      "episode_count": null,
+      "imdb_id": null,
+      "match_method": "title_year",
+      "original_title": null,
+      "poster_path": "/psiKR39VvwuvKReh6CtIk5evyLF.jpg",
+      "production_year": 2021,
+      "resolved_type": "movie",
+      "source": "github:tmdb",
+      "source_media_type": "movie",
+      "source_title": "尚气与十环传奇 / Shang-Chi and the Legend of the Ten Rings",
+      "status": "resolved",
+      "tmdb_id": "566525",
+      "tmdb_title": "尚气与十环传奇",
+      "year_source": "tmdb"
     },
     "30401849": {
       "imdb_id": null,
@@ -4435,6 +4540,27 @@
       "tmdb_id": "130330",
       "tmdb_title": "华灯初上",
       "year_source": "emby"
+    },
+    "34610636": {
+      "aliases": [
+        "蚁人3",
+        "蚁人与黄蜂女：量子狂热(台)"
+      ],
+      "douban_year": 2023,
+      "episode_count": null,
+      "imdb_id": null,
+      "match_method": "title_year",
+      "original_title": null,
+      "poster_path": "/1wF7NWxAAZe5s8G3cgJwIKdPN0z.jpg",
+      "production_year": 2023,
+      "resolved_type": "movie",
+      "source": "github:tmdb",
+      "source_media_type": "movie",
+      "source_title": "蚁人与黄蜂女：量子狂潮 / Ant-Man and the Wasp: Quantumania",
+      "status": "resolved",
+      "tmdb_id": "640146",
+      "tmdb_title": "蚁人与黄蜂女：量子狂潮",
+      "year_source": "tmdb"
     },
     "34791145": {
       "imdb_id": null,
@@ -6634,6 +6760,24 @@
       "tmdb_id": "233686",
       "tmdb_title": "恶缘",
       "year_source": "emby"
+    },
+    "36666524": {
+      "aliases": [
+        "I Bought the Farm",
+        "我买了一个农场"
+      ],
+      "douban_year": 2025,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "克拉克森的农场 第四季 / Clarkson’s Farm Season 4",
+      "status": "unresolved",
+      "tmdb_id": null
     },
     "36680645": {
       "imdb_id": null,

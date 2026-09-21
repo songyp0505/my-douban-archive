@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-18T10:51:00+00:00",
+  "generated_at": "2026-09-21T12:23:02+00:00",
   "records": [
     {
       "source": "douban",
@@ -2766,6 +2766,24 @@
       "source": "douban",
       "category": "movie",
       "status": "collect",
+      "douban_id": "30394797",
+      "title": "尚气与十环传奇 / Shang-Chi and the Legend of the Ten Rings",
+      "url": "https://movie.douban.com/subject/30394797/",
+      "rating": 3,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-21",
+      "media_type": "movie",
+      "aliases": [
+        "尚气与十戒传奇",
+        "尚气与十环帮传奇(港)"
+      ],
+      "release_year": 2021
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
       "douban_id": "26426194",
       "title": "巨齿鲨 / The Meg",
       "url": "https://movie.douban.com/subject/26426194/",
@@ -3781,6 +3799,24 @@
       "source": "douban",
       "category": "movie",
       "status": "collect",
+      "douban_id": "26957900",
+      "title": "死侍与金刚狼 / Deadpool & Wolverine",
+      "url": "https://movie.douban.com/subject/26957900/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-21",
+      "media_type": "movie",
+      "aliases": [
+        "死侍3",
+        "死侍与死党"
+      ],
+      "release_year": 2024
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
       "douban_id": "30429388",
       "title": "死神来了：血脉诅咒 / Final Destination: Bloodlines",
       "url": "https://movie.douban.com/subject/30429388/",
@@ -3794,6 +3830,24 @@
         "绝命终结站 血脉(台)"
       ],
       "release_year": 2025
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "30382416",
+      "title": "毒液2 / Venom: Let There Be Carnage",
+      "url": "https://movie.douban.com/subject/30382416/",
+      "rating": 3,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-21",
+      "media_type": "movie",
+      "aliases": [
+        "毒魔：血战大屠杀(港)",
+        "猛毒2：血蜘蛛(台)"
+      ],
+      "release_year": 2021
     },
     {
       "source": "douban",
@@ -5171,6 +5225,24 @@
       "source": "douban",
       "category": "movie",
       "status": "collect",
+      "douban_id": "34610636",
+      "title": "蚁人与黄蜂女：量子狂潮 / Ant-Man and the Wasp: Quantumania",
+      "url": "https://movie.douban.com/subject/34610636/",
+      "rating": 3,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-21",
+      "media_type": "movie",
+      "aliases": [
+        "蚁人3",
+        "蚁人与黄蜂女：量子狂热(台)"
+      ],
+      "release_year": 2023
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
       "douban_id": "1306612",
       "title": "蜘蛛侠 / Spider-Man",
       "url": "https://movie.douban.com/subject/1306612/",
@@ -5289,6 +5361,24 @@
         "蜘蛛人：返校日(台)"
       ],
       "release_year": 2017
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "26933210",
+      "title": "蜘蛛侠：英雄无归 / Spider-Man: No Way Home",
+      "url": "https://movie.douban.com/subject/26933210/",
+      "rating": 3,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-21",
+      "media_type": "movie",
+      "aliases": [
+        "新蜘蛛侠3",
+        "蜘蛛侠：无回之战"
+      ],
+      "release_year": 2021
     },
     {
       "source": "douban",
@@ -7193,6 +7283,24 @@
       "source": "douban",
       "category": "movie",
       "status": "collect",
+      "douban_id": "36666524",
+      "title": "克拉克森的农场 第四季 / Clarkson’s Farm Season 4",
+      "url": "https://movie.douban.com/subject/36666524/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-21",
+      "media_type": "tv",
+      "aliases": [
+        "I Bought the Farm",
+        "我买了一个农场"
+      ],
+      "release_year": 2025
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
       "douban_id": "34607516",
       "title": "华灯初上 / 華燈初上",
       "url": "https://movie.douban.com/subject/34607516/",
@@ -9042,6 +9150,24 @@
         "一代宗师终极版"
       ],
       "release_year": 2013
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "1291832",
+      "title": "低俗小说 / Pulp Fiction",
+      "url": "https://movie.douban.com/subject/1291832/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-21",
+      "media_type": "movie",
+      "aliases": [
+        "危险人物(港)",
+        "黑色追缉令(台)"
+      ],
+      "release_year": 1994
     },
     {
       "source": "douban",

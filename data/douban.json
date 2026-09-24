@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-24T03:56:38+00:00",
+  "generated_at": "2026-09-24T11:22:51+00:00",
   "records": [
     {
       "source": "douban",
@@ -4977,6 +4977,24 @@
       "source": "douban",
       "category": "movie",
       "status": "collect",
+      "douban_id": "37305629",
+      "title": "纽约客：传奇杂志百年史 / The New Yorker at 100",
+      "url": "https://movie.douban.com/subject/37305629/",
+      "rating": 4,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-24",
+      "media_type": "movie",
+      "aliases": [
+        "The New Yorker：纽约客百年史(台)",
+        "The New Yorker：传奇杂志百年史"
+      ],
+      "release_year": 2025
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
       "douban_id": "27060077",
       "title": "绿皮书 / Green Book",
       "url": "https://movie.douban.com/subject/27060077/",
@@ -9771,24 +9789,6 @@
         "灵异第六感(台)"
       ],
       "release_year": 1999
-    },
-    {
-      "source": "douban",
-      "category": "movie",
-      "status": "wish",
-      "douban_id": "37305629",
-      "title": "纽约客：传奇杂志百年史 / The New Yorker at 100",
-      "url": "https://movie.douban.com/subject/37305629/",
-      "rating": null,
-      "comment": "",
-      "tags": [],
-      "marked_at": "2026-09-16",
-      "media_type": "movie",
-      "aliases": [
-        "The New Yorker：纽约客百年史(台)",
-        "The New Yorker：传奇杂志百年史"
-      ],
-      "release_year": 2025
     },
     {
       "source": "douban",

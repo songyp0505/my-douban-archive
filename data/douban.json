@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-21T12:23:02+00:00",
+  "generated_at": "2026-09-24T03:56:38+00:00",
   "records": [
     {
       "source": "douban",
@@ -7278,6 +7278,23 @@
         "Clarkson’s Farm 2"
       ],
       "release_year": 2023
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "37303191",
+      "title": "克拉克森的农场 第五季 / Clarkson's Farm Season 5",
+      "url": "https://movie.douban.com/subject/37303191/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-24",
+      "media_type": "tv",
+      "aliases": [
+        "克拉克森的农场5"
+      ],
+      "release_year": 2026
     },
     {
       "source": "douban",

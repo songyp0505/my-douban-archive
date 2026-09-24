@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-24T11:22:51+00:00",
+  "generated_at": "2026-09-24T21:18:47+00:00",
   "records": [
     {
       "source": "douban",
@@ -606,6 +606,18 @@
       "source": "douban",
       "category": "book",
       "status": "wish",
+      "douban_id": "27607225",
+      "title": "命运 : 文在寅自传",
+      "url": "https://book.douban.com/subject/27607225/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-25"
+    },
+    {
+      "source": "douban",
+      "category": "book",
+      "status": "wish",
       "douban_id": "36633337",
       "title": "唯余细节",
       "url": "https://book.douban.com/subject/36633337/",
@@ -865,6 +877,18 @@
       "comment": "",
       "tags": [],
       "marked_at": "2024-12-01"
+    },
+    {
+      "source": "douban",
+      "category": "book",
+      "status": "wish",
+      "douban_id": "3225507",
+      "title": "经营未来",
+      "url": "https://book.douban.com/subject/3225507/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-25"
     },
     {
       "source": "douban",

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-24T21:18:47+00:00",
+  "generated_at": "2026-09-28T21:07:47+00:00",
   "records": [
     {
       "source": "douban",
@@ -7257,6 +7257,24 @@
       "source": "douban",
       "category": "movie",
       "status": "collect",
+      "douban_id": "33408073",
+      "title": "假如…？ 第一季 / What If...? Season 1",
+      "url": "https://movie.douban.com/subject/33408073/",
+      "rating": 4,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-28",
+      "media_type": "tv",
+      "aliases": [
+        "无限可能：假如..?",
+        "如果…？"
+      ],
+      "release_year": 2021
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
       "douban_id": "35524393",
       "title": "偶然的田园日记 / 어쩌다 전원일기",
       "url": "https://movie.douban.com/subject/35524393/",
@@ -8050,6 +8068,21 @@
         "《亚当斯一家》真人衍生剧",
         "星期三·亚当斯"
       ],
+      "release_year": 2022
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "26358318",
+      "title": "月光骑士 / Moon Knight",
+      "url": "https://movie.douban.com/subject/26358318/",
+      "rating": 4,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-28",
+      "media_type": "tv",
+      "aliases": [],
       "release_year": 2022
     },
     {
@@ -8932,6 +8965,21 @@
         "Squid Game Season 2"
       ],
       "release_year": 2024
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
+      "douban_id": "33406089",
+      "title": "鹰眼 第一季 / Hawkeye Season 1",
+      "url": "https://movie.douban.com/subject/33406089/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-09-28",
+      "media_type": "tv",
+      "aliases": [],
+      "release_year": 2021
     },
     {
       "source": "douban",

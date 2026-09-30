@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-28T21:07:47+00:00",
+  "generated_at": "2026-09-30T22:24:34+00:00",
   "records": [
     {
       "source": "douban",
@@ -7135,6 +7135,24 @@
       "source": "douban",
       "category": "movie",
       "status": "collect",
+      "douban_id": "35729990",
+      "title": "万物生灵 第四季 / All Creatures Great and Small Season 4",
+      "url": "https://movie.douban.com/subject/35729990/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-10-01",
+      "media_type": "tv",
+      "aliases": [
+        "新万物生灵",
+        "万物既伟大又渺小"
+      ],
+      "release_year": 2023
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
       "douban_id": "35391190",
       "title": "三十九 / 서른，아홉",
       "url": "https://movie.douban.com/subject/35391190/",
@@ -9109,6 +9127,42 @@
       "source": "douban",
       "category": "movie",
       "status": "do",
+      "douban_id": "36731231",
+      "title": "万物生灵 第五季 / All Creatures Great and Small Season 5",
+      "url": "https://movie.douban.com/subject/36731231/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-10-01",
+      "media_type": "tv",
+      "aliases": [
+        "新万物生灵",
+        "万物既伟大又渺小"
+      ],
+      "release_year": 2024
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "do",
+      "douban_id": "26791670",
+      "title": "大世界之旅 第一季 / The Grand Tour Season 1",
+      "url": "https://movie.douban.com/subject/26791670/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-10-01",
+      "media_type": "tv",
+      "aliases": [
+        "伟大的旅程",
+        "歌朗途"
+      ],
+      "release_year": 2016
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "do",
       "douban_id": "33400547",
       "title": "如何在网上卖迷幻药 第一季 / How to Sell Drugs Online (Fast) Season 1",
       "url": "https://movie.douban.com/subject/33400547/",
@@ -10110,6 +10164,42 @@
         "一级方程式：飆速求生(台)"
       ],
       "release_year": 2019
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "37433948",
+      "title": "万物生灵 第七季 / All Creatures Great and Small Season 7",
+      "url": "https://movie.douban.com/subject/37433948/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-10-01",
+      "media_type": "tv",
+      "aliases": [
+        "新万物生灵",
+        "万物既伟大又渺小"
+      ],
+      "release_year": 2026
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
+      "douban_id": "36787728",
+      "title": "万物生灵 第六季 / All Creatures Great and Small Season 6",
+      "url": "https://movie.douban.com/subject/36787728/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-10-01",
+      "media_type": "tv",
+      "aliases": [
+        "新万物生灵",
+        "万物既伟大又渺小"
+      ],
+      "release_year": 2025
     },
     {
       "source": "douban",

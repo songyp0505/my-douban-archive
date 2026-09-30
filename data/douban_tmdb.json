@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T21:10:56+00:00",
+  "generated_at": "2026-09-30T22:27:53+00:00",
   "items": {
     "10440138": {
       "imdb_id": null,
@@ -2804,6 +2804,24 @@
       "tmdb_id": "101492",
       "tmdb_title": "古道清凉",
       "year_source": "override"
+    },
+    "26791670": {
+      "aliases": [
+        "伟大的旅程",
+        "歌朗途"
+      ],
+      "douban_year": 2016,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "大世界之旅 第一季 / The Grand Tour Season 1",
+      "status": "unresolved",
+      "tmdb_id": null
     },
     "26794435": {
       "imdb_id": null,
@@ -6160,6 +6178,24 @@
       "tmdb_title": "恶鬼",
       "year_source": "emby"
     },
+    "35729990": {
+      "aliases": [
+        "新万物生灵",
+        "万物既伟大又渺小"
+      ],
+      "douban_year": 2023,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "万物生灵 第四季 / All Creatures Great and Small Season 4",
+      "status": "unresolved",
+      "tmdb_id": null
+    },
     "35733431": {
       "imdb_id": null,
       "match_method": "seed",
@@ -6946,6 +6982,24 @@
       "tmdb_title": "监察",
       "year_source": "emby"
     },
+    "36731231": {
+      "aliases": [
+        "新万物生灵",
+        "万物既伟大又渺小"
+      ],
+      "douban_year": 2024,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "万物生灵 第五季 / All Creatures Great and Small Season 5",
+      "status": "unresolved",
+      "tmdb_id": null
+    },
     "36744090": {
       "imdb_id": null,
       "match_method": "seed",
@@ -7029,6 +7083,24 @@
       "tmdb_id": "1170608",
       "tmdb_title": "沙丘3",
       "year_source": "emby"
+    },
+    "36787728": {
+      "aliases": [
+        "新万物生灵",
+        "万物既伟大又渺小"
+      ],
+      "douban_year": 2025,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "万物生灵 第六季 / All Creatures Great and Small Season 6",
+      "status": "unresolved",
+      "tmdb_id": null
     },
     "36808876": {
       "imdb_id": null,
@@ -7333,6 +7405,24 @@
       "tmdb_id": "44833",
       "tmdb_title": "超级战舰",
       "year_source": "emby"
+    },
+    "37433948": {
+      "aliases": [
+        "新万物生灵",
+        "万物既伟大又渺小"
+      ],
+      "douban_year": 2026,
+      "episode_count": null,
+      "imdb_id": null,
+      "original_title": null,
+      "production_year": null,
+      "reason": "no_confident_match",
+      "resolved_type": null,
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "万物生灵 第七季 / All Creatures Great and Small Season 7",
+      "status": "unresolved",
+      "tmdb_id": null
     },
     "3765826": {
       "imdb_id": null,

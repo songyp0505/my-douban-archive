@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-09-30T22:24:34+00:00",
+  "generated_at": "2026-10-02T09:55:56+00:00",
   "records": [
     {
       "source": "douban",
@@ -7135,6 +7135,24 @@
       "source": "douban",
       "category": "movie",
       "status": "collect",
+      "douban_id": "36731231",
+      "title": "万物生灵 第五季 / All Creatures Great and Small Season 5",
+      "url": "https://movie.douban.com/subject/36731231/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-10-02",
+      "media_type": "tv",
+      "aliases": [
+        "新万物生灵",
+        "万物既伟大又渺小"
+      ],
+      "release_year": 2024
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
       "douban_id": "35729990",
       "title": "万物生灵 第四季 / All Creatures Great and Small Season 4",
       "url": "https://movie.douban.com/subject/35729990/",
@@ -9122,24 +9140,6 @@
         "跑男"
       ],
       "release_year": 2010
-    },
-    {
-      "source": "douban",
-      "category": "movie",
-      "status": "do",
-      "douban_id": "36731231",
-      "title": "万物生灵 第五季 / All Creatures Great and Small Season 5",
-      "url": "https://movie.douban.com/subject/36731231/",
-      "rating": null,
-      "comment": "",
-      "tags": [],
-      "marked_at": "2026-10-01",
-      "media_type": "tv",
-      "aliases": [
-        "新万物生灵",
-        "万物既伟大又渺小"
-      ],
-      "release_year": 2024
     },
     {
       "source": "douban",

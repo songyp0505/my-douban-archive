@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-10-02T09:55:56+00:00",
+  "generated_at": "2026-10-09T01:17:29+00:00",
   "records": [
     {
       "source": "douban",
@@ -661,6 +661,18 @@
       "comment": "",
       "tags": [],
       "marked_at": "2025-09-15"
+    },
+    {
+      "source": "douban",
+      "category": "book",
+      "status": "wish",
+      "douban_id": "36161290",
+      "title": "大地上我们转瞬即逝的绚烂",
+      "url": "https://book.douban.com/subject/36161290/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-10-09"
     },
     {
       "source": "douban",

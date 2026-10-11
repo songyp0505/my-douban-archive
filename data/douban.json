@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-10-09T01:17:29+00:00",
+  "generated_at": "2026-10-11T13:08:32+00:00",
   "records": [
     {
       "source": "douban",
@@ -7165,6 +7165,24 @@
       "source": "douban",
       "category": "movie",
       "status": "collect",
+      "douban_id": "36787728",
+      "title": "万物生灵 第六季 / All Creatures Great and Small Season 6",
+      "url": "https://movie.douban.com/subject/36787728/",
+      "rating": 5,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-10-11",
+      "media_type": "tv",
+      "aliases": [
+        "新万物生灵",
+        "万物既伟大又渺小"
+      ],
+      "release_year": 2025
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "collect",
       "douban_id": "35729990",
       "title": "万物生灵 第四季 / All Creatures Great and Small Season 4",
       "url": "https://movie.douban.com/subject/35729990/",
@@ -10194,24 +10212,6 @@
         "万物既伟大又渺小"
       ],
       "release_year": 2026
-    },
-    {
-      "source": "douban",
-      "category": "movie",
-      "status": "wish",
-      "douban_id": "36787728",
-      "title": "万物生灵 第六季 / All Creatures Great and Small Season 6",
-      "url": "https://movie.douban.com/subject/36787728/",
-      "rating": null,
-      "comment": "",
-      "tags": [],
-      "marked_at": "2026-10-01",
-      "media_type": "tv",
-      "aliases": [
-        "新万物生灵",
-        "万物既伟大又渺小"
-      ],
-      "release_year": 2025
     },
     {
       "source": "douban",

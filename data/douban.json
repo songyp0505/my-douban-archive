@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-10-11T13:08:32+00:00",
+  "generated_at": "2026-10-15T04:54:19+00:00",
   "records": [
     {
       "source": "douban",
@@ -865,6 +865,18 @@
       "comment": "",
       "tags": [],
       "marked_at": "2025-10-12"
+    },
+    {
+      "source": "douban",
+      "category": "book",
+      "status": "wish",
+      "douban_id": "34997254",
+      "title": "现代性的性别",
+      "url": "https://book.douban.com/subject/34997254/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-10-15"
     },
     {
       "source": "douban",

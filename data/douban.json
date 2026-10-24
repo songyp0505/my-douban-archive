@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-10-19T13:41:40+00:00",
+  "generated_at": "2026-10-24T16:05:56+00:00",
   "records": [
     {
       "source": "douban",
@@ -361,6 +361,18 @@
       "comment": "缺了的两颗星是减的自己的，哲学书不能推进的太快了，很多地方也是没有看明白。但是如果把整本书当成生物学研究来看，就没那么深奥了。敬畏自然，尊重科学。",
       "tags": [],
       "marked_at": "2022-06-28"
+    },
+    {
+      "source": "douban",
+      "category": "book",
+      "status": "collect",
+      "douban_id": "3225507",
+      "title": "经营未来",
+      "url": "https://book.douban.com/subject/3225507/",
+      "rating": 4,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-10-24"
     },
     {
       "source": "douban",
@@ -901,18 +913,6 @@
       "comment": "",
       "tags": [],
       "marked_at": "2024-12-01"
-    },
-    {
-      "source": "douban",
-      "category": "book",
-      "status": "wish",
-      "douban_id": "3225507",
-      "title": "经营未来",
-      "url": "https://book.douban.com/subject/3225507/",
-      "rating": null,
-      "comment": "",
-      "tags": [],
-      "marked_at": "2026-09-25"
     },
     {
       "source": "douban",

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-10-24T16:05:56+00:00",
+  "generated_at": "2026-11-21T02:35:14+00:00",
   "records": [
     {
       "source": "douban",
@@ -9182,6 +9182,24 @@
         "跑男"
       ],
       "release_year": 2010
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "do",
+      "douban_id": "37100984",
+      "title": "后会友期",
+      "url": "https://movie.douban.com/subject/37100984/",
+      "rating": 3,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-11-21",
+      "media_type": "tv",
+      "aliases": [
+        "再见朋友",
+        "再见，朋友"
+      ],
+      "release_year": 2026
     },
     {
       "source": "douban",

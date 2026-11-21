@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-11-21T02:35:14+00:00",
+  "generated_at": "2026-11-21T19:32:38+00:00",
   "records": [
     {
       "source": "douban",
@@ -997,6 +997,18 @@
       "comment": "",
       "tags": [],
       "marked_at": "2024-07-26"
+    },
+    {
+      "source": "douban",
+      "category": "book",
+      "status": "wish",
+      "douban_id": "1394364",
+      "title": "银河系漫游指南",
+      "url": "https://book.douban.com/subject/1394364/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-11-22"
     },
     {
       "source": "douban",

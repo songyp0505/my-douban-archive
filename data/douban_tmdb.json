@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T22:27:53+00:00",
+  "generated_at": "2026-11-22T01:26:37+00:00",
   "items": {
     "10440138": {
       "imdb_id": null,
@@ -7227,6 +7227,27 @@
       "tmdb_id": "1312157",
       "tmdb_title": "关于约会的一切",
       "year_source": "emby"
+    },
+    "37100984": {
+      "aliases": [
+        "再见朋友",
+        "再见，朋友"
+      ],
+      "douban_year": 2026,
+      "episode_count": null,
+      "imdb_id": null,
+      "match_method": "title_year",
+      "original_title": null,
+      "poster_path": "/pH1zpLMuagE8wji4kg3SEJ1RB3.jpg",
+      "production_year": 2026,
+      "resolved_type": "tv",
+      "source": "github:tmdb",
+      "source_media_type": "tv",
+      "source_title": "后会友期",
+      "status": "resolved",
+      "tmdb_id": "338938",
+      "tmdb_title": "后会友期",
+      "year_source": "tmdb"
     },
     "37125831": {
       "imdb_id": null,

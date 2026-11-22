@@ -6698,7 +6698,7 @@
       "imdb_id": null,
       "match_method": "seed",
       "poster_path": "/gmbaAYlS4PENoSmpZgYsxJOX6pa.jpg",
-      "production_year": null,
+      "production_year": 2026,
       "resolved_type": "tv",
       "source": "seed",
       "source_media_type": "tv",
@@ -6706,7 +6706,7 @@
       "status": "resolved",
       "tmdb_id": "316943",
       "tmdb_title": "中国奇谭第二部",
-      "year_source": null
+      "year_source": "douban"
     },
     "36328210": {
       "imdb_id": null,

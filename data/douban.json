@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-11-21T19:32:38+00:00",
+  "generated_at": "2026-11-26T17:07:37+00:00",
   "records": [
     {
       "source": "douban",
@@ -9938,6 +9938,24 @@
       "source": "douban",
       "category": "movie",
       "status": "wish",
+      "douban_id": "37822528",
+      "title": "珠穆朗玛：云中彼岸 / Everest: The Other Side",
+      "url": "https://movie.douban.com/subject/37822528/",
+      "rating": null,
+      "comment": "",
+      "tags": [],
+      "marked_at": "2026-11-26",
+      "media_type": "movie",
+      "aliases": [
+        "珠峰北坡",
+        "Everest's North Side"
+      ],
+      "release_year": 2026
+    },
+    {
+      "source": "douban",
+      "category": "movie",
+      "status": "wish",
       "douban_id": "4843480",
       "title": "监守自盗 / Inside Job",
       "url": "https://movie.douban.com/subject/4843480/",
@@ -10579,7 +10597,7 @@
       "category": "movie",
       "status": "wish",
       "douban_id": "26877925",
-      "title": "斯特莱克探案集：布谷鸟的呼唤 第一季 / Strike: The Cuckoo's Calling Season 1",
+      "title": "斯特莱克探案集：布谷鸟的呼唤 / Strike: The Cuckoo's Calling",
       "url": "https://movie.douban.com/subject/26877925/",
       "rating": null,
       "comment": "",
@@ -10587,8 +10605,8 @@
       "marked_at": "2026-09-16",
       "media_type": "tv",
       "aliases": [
-        "斯特莱克探案集：布谷鸟的呼唤",
-        "神探斯特莱克"
+        "斯特莱克探案集第一季",
+        "斯特莱克探案集1"
       ],
       "release_year": 2017
     },

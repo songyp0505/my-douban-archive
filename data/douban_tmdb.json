@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-22T01:26:37+00:00",
+  "generated_at": "2026-11-26T17:10:45+00:00",
   "items": {
     "10440138": {
       "imdb_id": null,
@@ -7458,6 +7458,27 @@
       "tmdb_id": "309435",
       "tmdb_title": "蒙古草原，天气晴",
       "year_source": "emby"
+    },
+    "37822528": {
+      "aliases": [
+        "珠峰北坡",
+        "Everest's North Side"
+      ],
+      "douban_year": 2026,
+      "episode_count": null,
+      "imdb_id": null,
+      "match_method": "title_year",
+      "original_title": null,
+      "poster_path": "/cWbDLsCIChns73qh5Gd6u2e5zQ4.jpg",
+      "production_year": 2026,
+      "resolved_type": "movie",
+      "source": "github:tmdb",
+      "source_media_type": "movie",
+      "source_title": "珠穆朗玛：云中彼岸 / Everest: The Other Side",
+      "status": "resolved",
+      "tmdb_id": "1603262",
+      "tmdb_title": "珠穆朗玛：云中彼岸",
+      "year_source": "tmdb"
     },
     "37926820": {
       "aliases": [
